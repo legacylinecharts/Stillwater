@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legacy Line Charts v50.6</title>
+    <title>Legacy Line Charts v50.7</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -1152,7 +1152,7 @@
             const exportObj = {
               _exportInfo: {
                 exportDate: new Date().toISOString(),
-                version: '50.6',
+                version: '50.7',
                 teamName: myTeamSetup.teamName,
                 description: 'Full team configuration for subscriber site build'
               },
@@ -1878,7 +1878,7 @@
                     console.log('✓ Found player (tab-separated):', { number, name, position, grade });
                     
                     // Strip (Capt.) or (Capt) or * from names
-                    const cleanName = (() => { const p = name.trim().split(/\s+/); const r = []; for (const t of p) { if (/[a-z]$/.test(t)) r.push(t); else break; } return r.length > 0 ? r.join(' ') : p[0]; })();
+                    const cleanName = (() => { const p = name.trim().split(/\s+/); const r = []; for (const t of p) { const tc = t.replace(/\*+$/, ''); if (/[a-z]$/.test(tc)) r.push(tc); else break; } return r.length > 0 ? r.join(' ') : p[0]; })();
                     const nameParts = cleanName.split(' ');
                     const lastName = nameParts[nameParts.length - 1];
                     const firstName = nameParts.slice(0, -1).join(' ');
@@ -2043,7 +2043,7 @@
                     console.log('✓ Found player (concatenated):', { number, name, position, grade, height, weight, shoots, dobYear });
                     
                     // Strip (Capt.) or (Capt) or * from names
-                    const cleanName = (() => { const p = name.trim().split(/\s+/); const r = []; for (const t of p) { if (/[a-z]$/.test(t)) r.push(t); else break; } return r.length > 0 ? r.join(' ') : p[0]; })();
+                    const cleanName = (() => { const p = name.trim().split(/\s+/); const r = []; for (const t of p) { const tc = t.replace(/\*+$/, ''); if (/[a-z]$/.test(tc)) r.push(tc); else break; } return r.length > 0 ? r.join(' ') : p[0]; })();
                     const nameParts = cleanName.split(' ');
                     const lastName = nameParts[nameParts.length - 1];
                     const firstName = nameParts.slice(0, -1).join(' ');
@@ -2132,7 +2132,7 @@
                 const normalizedStatsPos = statsPos ? statsPos.split('|')[0] : null;
 
                 // Clean name
-                const cleanName = (() => { const p = name.trim().split(/\s+/); const r = []; for (const t of p) { if (/[a-z]$/.test(t)) r.push(t); else break; } return r.length > 0 ? r.join(' ') : p[0]; })();
+                const cleanName = (() => { const p = name.trim().split(/\s+/); const r = []; for (const t of p) { const tc = t.replace(/\*+$/, ''); if (/[a-z]$/.test(tc)) r.push(tc); else break; } return r.length > 0 ? r.join(' ') : p[0]; })();
 
                 if (inSkaterSection) {
                   const player = updatedRoster.find(p =>
@@ -2807,7 +2807,8 @@
                   const rawParts = rawName.trim().split(/\s+/);
                   const realParts = [];
                   for (const part of rawParts) {
-                    if (/[a-z]$/.test(part)) { realParts.push(part); }
+                    const tc = part.replace(/\*+$/, '');
+                    if (/[a-z]$/.test(tc)) { realParts.push(tc); }
                     else { break; }
                   }
                   const nameParts = realParts.length > 0 ? realParts : rawParts;
