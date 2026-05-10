@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legacy Line Charts v50.7</title>
+    <title>Legacy Line Charts v60.5</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -199,151 +199,212 @@
 
         // ============================================================
         // MSHSL TEAMS DATABASE
-        // Complete database of Minnesota high school hockey teams
-        // with logos and team colors from Legacy Hockey
+        // Complete database of MN + out-of-state hockey teams
+        // with logos and team colors — v60.0
         // ============================================================
         const MSHSL_TEAMS = {
-          "hopkins royals": { name: "Hopkins", nickname: "Royals", logo: "https://cdn2.sportngin.com/attachments/team/d52c-182981971/HopkinsLogo_large_square.png", primaryColor: "#666666", secondaryColor: "#000066" },
-          "st. thomas academy cadets": { name: "St. Thomas Academy", nickname: "Cadets", logo: "https://cdn4.sportngin.com/attachments/team/8ec8-151937343/1saint-thomas-cadets-hockey_large_square_large_square.png", primaryColor: "#666666", secondaryColor: "#000066" },
-          "tartan titans": { name: "Tartan", nickname: "Titans", logo: "https://cdn2.sportngin.com/attachments/team/a353-215300611/TartanLogo_large_square.png", primaryColor: "#151515", secondaryColor: "#0000C4" },
-          "rogers royals": { name: "Rogers", nickname: "Royals", logo: "https://cdn4.sportngin.com/attachments/team/4697-151913761/rogers-royals-hockey-_1__large_square.png", primaryColor: "#000000", secondaryColor: "#0000FF" },
-          "hill-murray pioneers": { name: "Hill-Murray", nickname: "Pioneers", logo: "https://cdn1.sportngin.com/attachments/team/7dd9-151803365/hill-murry_hockey_copy-_1__large_square.png", primaryColor: "#121212", secondaryColor: "#006E25" },
-          "rosemount irish": { name: "Rosemount", nickname: "Irish", logo: "https://cdn2.sportngin.com/attachments/team/f4a2-199862227/R-with-Stick-Logo_large_square.png", primaryColor: "#000066", secondaryColor: "#00A302" },
-          "rochester century/jm panthers": { name: "Rochester Century/JM", nickname: "Panthers", logo: "https://cdn1.sportngin.com/attachments/team/e3f3-149937691/rochester-century-panthers-hockey_large_square.png", primaryColor: "#666666", secondaryColor: "#01017C" },
-          "pine city area dragons": { name: "Pine City Area", nickname: "Dragons", logo: "https://cdn4.sportngin.com/attachments/team/7d3e-152070174/1pine-city-dragons-hockey_large_square_large_square.png", primaryColor: "#000000", secondaryColor: "#016230" },
-          "park of cottage grove wolfpack": { name: "Park of Cottage Grove", nickname: "Wolfpack", logo: "https://cdn3.sportngin.com/attachments/team/2948-151928700/1park-cottage-grove-wolfpack-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#017F01" },
-          "woodbury royals": { name: "Woodbury", nickname: "Royals", logo: "https://cdn2.sportngin.com/attachments/team/946d-151943495/1woodbury-royals-hockey_large_square_large_square.png", primaryColor: "#666666", secondaryColor: "#023399" },
-          "mora/milaca mustangs": { name: "Mora/Milaca", nickname: "Mustangs", logo: "https://cdn4.sportngin.com/attachments/team/984b-167624178/MoraLogo4_large_square.png", primaryColor: "#0A0A0A", secondaryColor: "#031790" },
-          "rock ridge wolverines": { name: "Rock Ridge", nickname: "Wolverines", logo: "https://cdn4.sportngin.com/attachments/team/dc2f-166964797/RockRidgeLogo3_large_square.png", primaryColor: "#000000", secondaryColor: "#03520C" },
-          "mounds view mustangs": { name: "Mounds View", nickname: "Mustangs", logo: "https://cdn4.sportngin.com/attachments/team/8dac-151942574/0mounds-view-mustangs-hockey_large_square_large_square.png", primaryColor: "#666666", secondaryColor: "#045302" },
-          "la crescent-hokah lancers": { name: "La Crescent-Hokah", nickname: "Lancers", logo: "https://cdn1.sportngin.com/attachments/team/e415-151691131/new_la_crescent_large_square.png", primaryColor: "#000000", secondaryColor: "#048F63" },
-          "becker/big lake eagles": { name: "Becker/Big Lake", nickname: "Eagles", logo: "https://cdn3.sportngin.com/attachments/team/5c41-151867105/1becker-big-lake-eagles-hockey_large_square.png", primaryColor: "#666666", secondaryColor: "#0577FA" },
-          "minnetonka skippers": { name: "Minnetonka", nickname: "Skippers", logo: "https://cdn3.sportngin.com/attachments/team/17b4-151725018/minnetonka-skippers-hockey-_1__large_square.png", primaryColor: "#666666", secondaryColor: "#063195" },
-          "st. paul blizzard": { name: "St. Paul", nickname: "Blizzard", logo: "https://cdn1.sportngin.com/attachments/team/c436-213768835/StPaulLogo_large_square.png", primaryColor: "#666666", secondaryColor: "#0737A0" },
-          "greenway raiders": { name: "Greenway", nickname: "Raiders", logo: "https://cdn2.sportngin.com/attachments/team/cf86-151692129/EOMf7_MX4AUivJk_large_square.png", primaryColor: "#666666", secondaryColor: "#078A4D" },
-          "hibbing/chisholm bluejackets": { name: "Hibbing/Chisholm", nickname: "Bluejackets", logo: "https://cdn3.sportngin.com/attachments/team/d019-151710402/hibbing-chisholm-bluejackets-hockey_large_square.png", primaryColor: "#666666", secondaryColor: "#0D358D" },
-          "proctor rails": { name: "Proctor", nickname: "Rails", logo: "https://cdn1.sportngin.com/attachments/team/1c92-151768490/RailsHockeyCircleLogo_large_square.png", primaryColor: "#000000", secondaryColor: "#104C2A" },
-          "litchfield/dassel-cokato dragons": { name: "Litchfield/Dassel-Cokato", nickname: "Dragons", logo: "https://cdn3.sportngin.com/attachments/team/69b3-198879758/LDC-New1.png_large_square.png", primaryColor: "#000000", secondaryColor: "#155707" },
-          "morris/benson area storm": { name: "Morris/Benson Area", nickname: "Storm", logo: "https://cdn2.sportngin.com/attachments/team/ff51-151690771/Morris_hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#1E4BB6" },
-          "holy family fire": { name: "Holy Family", nickname: "Fire", logo: "https://cdn1.sportngin.com/attachments/team/3988-198880114/HF_Bold_White_large_square.png", primaryColor: "#080A09", secondaryColor: "#24663C" },
-          "roseau rams": { name: "Roseau", nickname: "Rams", logo: "https://cdn4.sportngin.com/attachments/team/726d-151767657/1roseau-rams-hockey_large_square.png", primaryColor: "#666666", secondaryColor: "#265108" },
-          "dodge county wildcats": { name: "Dodge County", nickname: "Wildcats", logo: "https://cdn3.sportngin.com/attachments/team/f13c-151914171/1wildcat-logo-2_large_square_large_square.png", primaryColor: "#000005", secondaryColor: "#2B60DE" },
-          "owatonna huskies": { name: "Owatonna", nickname: "Huskies", logo: "https://cdn3.sportngin.com/attachments/team/2f12-149937828/logo_medium_large_square.png", primaryColor: "#666666", secondaryColor: "#37599D" },
-          "blake bears": { name: "Blake", nickname: "Bears", logo: "https://cdn4.sportngin.com/attachments/team/8ea5-215318096/4kee5oJmMyal9vAa4CXBBx_w3300h2550_large_square.png", primaryColor: "#000080", secondaryColor: "#478430" },
-          "champlin park rebels": { name: "Champlin Park", nickname: "Rebels", logo: "https://cdn2.sportngin.com/attachments/team/38d3-151913866/logo_large_large_square.png", primaryColor: "#142985", secondaryColor: "#5A89E7" },
-          "shakopee sabers": { name: "Shakopee", nickname: "Sabers", logo: "https://cdn3.sportngin.com/attachments/team/62da-151937735/Saber_Head_PNG_large_square_large_square.png", primaryColor: "#666666", secondaryColor: "#5E0000" },
-          "eagan wildcats": { name: "Eagan", nickname: "Wildcats", logo: "https://cdn3.sportngin.com/attachments/team/2513-215087879/EaganLogo519_large_square.png", primaryColor: "#003399", secondaryColor: "#65FF01" },
-          "buffalo bison": { name: "Buffalo", nickname: "Bison", logo: "https://cdn3.sportngin.com/attachments/team/e818-151725160/buffalo-bisons-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#6600CC" },
-          "little falls flyers": { name: "Little Falls", nickname: "Flyers", logo: "https://cdn1.sportngin.com/attachments/team/2cc5-151655376/1little_falls_2_large_square.png", primaryColor: "#7F00FF", secondaryColor: "#666666" },
-          "prairie centre cardinals": { name: "Prairie Centre", nickname: "Cardinals", logo: "https://cdn1.sportngin.com/attachments/team/4d2f-151842392/prairie_centre_large_square.png", primaryColor: "#000000", secondaryColor: "#721A1D" },
-          "new ulm eagles": { name: "New Ulm", nickname: "Eagles", logo: "https://cdn4.sportngin.com/attachments/team/9a1e-150038859/NewUlmLogo_large_square.png", primaryColor: "#000000", secondaryColor: "#79078A" },
-          "red lake falls eagles": { name: "Red Lake Falls", nickname: "Eagles", logo: "https://cdn1.sportngin.com/attachments/team/d245-151887023/1Eagle_Hockey_-_white2_large_square.png", primaryColor: "#000000", secondaryColor: "#79078A" },
-          "fairmont cardinals": { name: "Fairmont", nickname: "Cardinals", logo: "https://cdn4.sportngin.com/attachments/team/36d5-150042624/fairmont-cardinal-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#7C0C00" },
-          "south st. paul packers": { name: "South St. Paul", nickname: "Packers", logo: "https://cdn1.sportngin.com/attachments/team/1c50-151805197/south-saint-paul-packers-hockey_large_square.png", primaryColor: "#666666", secondaryColor: "#800000" },
-          "red wing wingers": { name: "Red Wing", nickname: "Wingers", logo: "https://cdn2.sportngin.com/attachments/team/78ee-149965836/red-wing-wingers-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#811AD6" },
-          "blaine bengals": { name: "Blaine", nickname: "Bengals", logo: "https://cdn4.sportngin.com/attachments/team/6ed9-151913528/blaine-bengals-hockey_large_square.png", primaryColor: "#001A77", secondaryColor: "#87BBF5" },
-          "bloomington jefferson jaguars": { name: "Bloomington Jefferson", nickname: "Jaguars", logo: "https://cdn2.sportngin.com/attachments/team/2fc2-151834018/schoollogo1_400x400-copy_large_square.png", primaryColor: "#666666", secondaryColor: "#87BBF5" },
-          "southwest christian/richfield stars": { name: "Southwest Christian/Richfield", nickname: "Stars", logo: "https://cdn3.sportngin.com/attachments/team/c8e8-182411031/SWChristianLogo3_large_square.png", primaryColor: "#666666", secondaryColor: "#8A171B" },
-          "kittson county central bearcats": { name: "Kittson County Central", nickname: "Bearcats", logo: "https://cdn2.sportngin.com/attachments/team/e3ec-151897016/New_Bearcat_large_square.png", primaryColor: "#185E0B", secondaryColor: "#929913" },
-          "minneapolis millers": { name: "Minneapolis", nickname: "Millers", logo: "https://cdn4.sportngin.com/attachments/team/78e4-151654134/1minneapolis-hockey_large_square.png", primaryColor: "#0E0F0E", secondaryColor: "#949292" },
-          "minnesota river bulldogs": { name: "Minnesota River", nickname: "Bulldogs", logo: "https://cdn2.sportngin.com/attachments/team/3123-150039289/MinnesotaRiverLogo_large_square.png", primaryColor: "#172EB0", secondaryColor: "#949292" },
-          "andover huskies": { name: "Andover", nickname: "Huskies", logo: "https://cdn4.sportngin.com/attachments/team/7f7f-151913518/andover-huskies-hockey-_1__large_square.png", primaryColor: "#000000", secondaryColor: "#977501" },
-          "bemidji lumberjacks": { name: "Bemidji", nickname: "Lumberjacks", logo: "https://cdn3.sportngin.com/attachments/team/ae8e-151779535/bemidji-lumberjacks-hockey_large_square.png", primaryColor: "#013368", secondaryColor: "#999999" },
-          "roseville raiders": { name: "Roseville", nickname: "Raiders", logo: "https://cdn3.sportngin.com/attachments/team/a555-151943684/0roseville-raiders-hockey_large_square_large_square.png", primaryColor: "#000000", secondaryColor: "#999999" },
-          "worthington trojans": { name: "Worthington", nickname: "Trojans", logo: "https://cdn4.sportngin.com/attachments/team/0122-150042417/worthington-trojans-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#9C0202" },
-          "luverne cardinals": { name: "Luverne", nickname: "Cardinals", logo: "https://cdn4.sportngin.com/attachments/team/7263-150040243/LuverneHockeyLogo_large_square.png", primaryColor: "#666666", secondaryColor: "#9C0202" },
-          "eden prairie eagles": { name: "Eden Prairie", nickname: "Eagles", logo: "https://cdn3.sportngin.com/attachments/team/a752-151728057/logo-eagle-_1__large_square.png", primaryColor: "#010101", secondaryColor: "#9C0202" },
-          "lakeville north panthers": { name: "Lakeville North", nickname: "Panthers", logo: "https://cdn1.sportngin.com/attachments/team/28b7-149999593/Nordique_OFFICIAL_1_large_square.png", primaryColor: "#010101", secondaryColor: "#9C0202" },
-          "new prague trojans": { name: "New Prague", nickname: "Trojans", logo: "https://cdn2.sportngin.com/attachments/team/a7b1-152073448/1new-prague-trojans-hockey_large_square_large_square.png", primaryColor: "#000000", secondaryColor: "#9C0202" },
-          "river lakes stars": { name: "River Lakes", nickname: "Stars", logo: "https://cdn3.sportngin.com/attachments/team/2772-151625544/12river-lakes-stars-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#9C0202" },
-          "redwood valley cardinals": { name: "Redwood Valley", nickname: "Cardinals", logo: "https://cdn2.sportngin.com/attachments/team/0371-150042906/RedwoodValleyHockeyLogo_large_square.png", primaryColor: "#000000", secondaryColor: "#9C0202" },
-          "ely timberwolves": { name: "Ely", nickname: "Timberwolves", logo: "https://cdn3.sportngin.com/attachments/team/4eb2-151691479/ely-timberwolves-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#9C0202" },
-          "stillwater ponies": { name: "Stillwater", nickname: "Ponies", logo: "https://cdn1.sportngin.com/attachments/team/17de-151928095/0Pony__6__large_square.png", primaryColor: "#000000", secondaryColor: "#9C0202" },
-          "mankato west scarlets": { name: "Mankato West", nickname: "Scarlets", logo: "https://cdn2.sportngin.com/attachments/team/928a-181704221/MankatoWestLogo-3_large_square.png", primaryColor: "#666666", secondaryColor: "#9C0202" },
-          "duluth denfeld hunters": { name: "Duluth Denfeld", nickname: "Hunters", logo: "https://cdn2.sportngin.com/attachments/team/9b7c-152161278/Untitled-1_large_square.png", primaryColor: "#56012B", secondaryColor: "#BFA04D" },
-          "simley spartans": { name: "Simley", nickname: "Spartans", logo: "https://cdn3.sportngin.com/attachments/team/caa0-151804224/simley-spartans-hockey_large_square.png", primaryColor: "#24266B", secondaryColor: "#C01B10" },
-          "apple valley/burnsville thunder": { name: "Apple Valley/Burnsville", nickname: "Thunder", logo: "https://cdn2.sportngin.com/attachments/team/c82a-151937882/Apple_Valley_large_square_large_square_large_square.png", primaryColor: "#361E1F", secondaryColor: "#C0A686" },
-          "lakeville south cougars": { name: "Lakeville South", nickname: "Cougars", logo: "https://cdn2.sportngin.com/attachments/team/3538-149841646/Lakeville_South_cougar-_1__large_square.png", primaryColor: "#730D12", secondaryColor: "#C0B27F" },
-          "brainerd warriors": { name: "Brainerd", nickname: "Warriors", logo: "https://cdn4.sportngin.com/attachments/team/9033-151634234/brainerd-warriors-hockey_large_square.png", primaryColor: "#223B98", secondaryColor: "#C0C0C0" },
-          "breckenridge/wahpeton blades": { name: "Breckenridge/Wahpeton", nickname: "Blades", logo: "https://cdn3.sportngin.com/attachments/team/ccff-196793539/BladesCircle2_FINAL-2_large_square.png", primaryColor: "#000000", secondaryColor: "#C0C0C0" },
-          "cambridge-isanti bluejackets": { name: "Cambridge-Isanti", nickname: "Bluejackets", logo: "https://cdn4.sportngin.com/attachments/team/5bb8-151867068/1cambridge-isanti-hockey_large_square.png", primaryColor: "#000095", secondaryColor: "#C0C0C0" },
-          "detroit lakes lakers": { name: "Detroit Lakes", nickname: "Lakers", logo: "https://cdn2.sportngin.com/attachments/team/04ca-151862469/07ac69be6bb11994b72c9207dc591e1b_large_square.png", primaryColor: "#BD0000", secondaryColor: "#C0C0C0" },
-          "north shore storm": { name: "North Shore", nickname: "Storm", logo: "https://cdn4.sportngin.com/attachments/team/4ef9-151710721/north-shore-storm-hockey_large_square.png", primaryColor: "#070C14", secondaryColor: "#C0C0C0" },
-          "chanhassen storm": { name: "Chanhassen", nickname: "Storm", logo: "https://cdn4.sportngin.com/attachments/team/8e27-151834799/chanhassen-storm-hockey_large_square.png", primaryColor: "#0E0F31", secondaryColor: "#C1B05F" },
-          "monticello moose": { name: "Monticello", nickname: "Moose", logo: "https://cdn3.sportngin.com/attachments/team/9e6b-151872724/monticello-moose-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#C30000" },
-          "east ridge raptors": { name: "East Ridge", nickname: "Raptors", logo: "https://cdn1.sportngin.com/attachments/team/3d12-151942489/1east-ridge-raptors-hockey_large_square_large_square.png", primaryColor: "#000000", secondaryColor: "#C5B358" },
-          "rochester mayo spartans": { name: "Rochester Mayo", nickname: "Spartans", logo: "https://cdn1.sportngin.com/attachments/team/50c8-149937902/images_large_square.png", primaryColor: "#187018", secondaryColor: "#C5B358" },
-          "sartell sabres": { name: "Sartell", nickname: "Sabres", logo: "https://cdn2.sportngin.com/attachments/team/13e3-182346014/Scripted_S__large_square3_large_square.png", primaryColor: "#2953CF", secondaryColor: "#C6C6C6" },
-          "austin packers": { name: "Austin", nickname: "Packers", logo: "https://cdn3.sportngin.com/attachments/team/2e29-149918958/activities_large_square.png", primaryColor: "#666666", secondaryColor: "#CC0000" },
-          "east grand forks green wave": { name: "East Grand Forks", nickname: "Green Wave", logo: "https://cdn2.sportngin.com/attachments/team/e494-151779249/east-grand-forks-hockey_large_square.png", primaryColor: "#007800", secondaryColor: "#CC0000" },
-          "duluth east greyhounds": { name: "Duluth East", nickname: "Greyhounds", logo: "https://cdn4.sportngin.com/attachments/team/9bc8-215114884/DuluthEastLogo_large_square.png", primaryColor: "#000005", secondaryColor: "#CC0202" },
-          "eastview lightning": { name: "Eastview", nickname: "Lightning", logo: "https://cdn4.sportngin.com/attachments/team/da47-150000199/Untitled-1_large_square.png", primaryColor: "#3366FF", secondaryColor: "#CCD4E7" },
-          "albert lea tigers": { name: "Albert Lea", nickname: "Tigers", logo: "https://cdn2.sportngin.com/attachments/team/c7d9-149891114/AlbertLea_large_square.png", primaryColor: "#0000BA", secondaryColor: "#CF2329" },
-          "alexandria cardinals": { name: "Alexandria", nickname: "Cardinals", logo: "https://cdn3.sportngin.com/attachments/team/6b78-151624918/1alexandria-cardinals-hockey_large_square.png", primaryColor: "#010101", secondaryColor: "#CF2329" },
-          "elk river/zimmerman elks": { name: "Elk River/Zimmerman", nickname: "Elks", logo: "https://cdn4.sportngin.com/attachments/team/5114-151913628/elk-river-elks-hockey-_1__large_square.png", primaryColor: "#000000", secondaryColor: "#D00000" },
-          "orono spartans": { name: "Orono", nickname: "Spartans", logo: "https://cdn2.sportngin.com/attachments/team/0abe-151950248/1orono-spartans-hockey_large_square.png", primaryColor: "#0519B0", secondaryColor: "#D00000" },
-          "princeton tigers": { name: "Princeton", nickname: "Tigers", logo: "https://cdn2.sportngin.com/attachments/team/5eee-151872825/HighSchool_icon_C_large_square.png", primaryColor: "#000000", secondaryColor: "#D25D00" },
-          "moose lake area rebels": { name: "Moose Lake Area", nickname: "Rebels", logo: "https://cdn2.sportngin.com/attachments/team/ac1f-152985919/Moose_Lake_boys__hockey_logo_version_large_square.png", primaryColor: "#182DEB", secondaryColor: "#D30000" },
-          "two rivers warriors": { name: "Two Rivers", nickname: "Warriors", logo: "https://cdn2.sportngin.com/attachments/team/0e90-182415323/TwoRiversLogo3_large_square.png", primaryColor: "#999999", secondaryColor: "#D30F2D" },
-          "st. louis park orioles": { name: "St. Louis Park", nickname: "Orioles", logo: "https://cdn1.sportngin.com/attachments/team/a531-151815462/1image001__2__large_square.png", primaryColor: "#000000", secondaryColor: "#D35400" },
-          "st. paul academy spartans": { name: "St. Paul Academy", nickname: "Spartans", logo: "https://cdn3.sportngin.com/attachments/team/0993-151653521/1st-paul-academy-spartans-hockey_large_square.png", primaryColor: "#0A243B", secondaryColor: "#D5AA41" },
-          "centennial cougars": { name: "Centennial", nickname: "Cougars", logo: "https://cdn2.sportngin.com/attachments/team/cef2-151905836/1centennal-cougars-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#D62724" },
-          "marshall tigers": { name: "Marshall", nickname: "Tigers", logo: "https://cdn2.sportngin.com/attachments/team/a97c-150039767/MarshallLogo_large_square.png", primaryColor: "#000000", secondaryColor: "#D76106" },
-          "osseo orioles": { name: "Osseo", nickname: "Orioles", logo: "https://cdn4.sportngin.com/attachments/team/9565-151913934/osseo-orioles-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#DA5700" },
-          "farmington tigers": { name: "Farmington", nickname: "Tigers", logo: "https://cdn2.sportngin.com/attachments/team/0bbc-151937498/farmington-tigers-hockey-_2__large_square_large_square.png", primaryColor: "#000000", secondaryColor: "#DA6600" },
-          "forest lake rangers": { name: "Forest Lake", nickname: "Rangers", logo: "https://cdn4.sportngin.com/attachments/team/4b23-151942233/1forest-lake-rangers-hockey_large_square_large_square.png", primaryColor: "#611311", secondaryColor: "#DABB3C" },
-          "anoka tornadoes": { name: "Anoka", nickname: "Tornadoes", logo: "https://cdn2.sportngin.com/attachments/team/e252-151913899/anoka-hockey_large_square.png", primaryColor: "#441E20", secondaryColor: "#DCDCDC" },
-          "faribault falcons": { name: "Faribault", nickname: "Falcons", logo: "https://cdn4.sportngin.com/attachments/team/b571-149918671/faribault-falcons-hockey_large_square.png", primaryColor: "#023604", secondaryColor: "#DCDCDC" },
-          "westonka white hawks": { name: "Westonka", nickname: "White Hawks", logo: "https://cdn4.sportngin.com/attachments/team/2e80-214965059/Westonka3_large_square.png", primaryColor: "#000000", secondaryColor: "#DD2219" },
-          "willmar cardinals": { name: "Willmar", nickname: "Cardinals", logo: "https://cdn2.sportngin.com/attachments/team/364d-151626458/1willmar-cardinals-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#DD2226" },
-          "winona winhawks": { name: "Winona", nickname: "Winhawks", logo: "https://cdn3.sportngin.com/attachments/team/2400-149919147/winona-hawks-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#DF5D1F" },
-          "northern edge red bulls": { name: "Northern Edge", nickname: "Red Bulls", logo: "https://cdn1.sportngin.com/attachments/team/b4f3-167547673/BlueNorthernEdgeLogo_large_square.png", primaryColor: "#00205B", secondaryColor: "#E21F39" },
-          "robbinsdale armstrong/cooper wings": { name: "Robbinsdale Armstrong/Cooper", nickname: "Wings", logo: "https://cdn4.sportngin.com/attachments/team/d4f2-151913653/robbinsdale-armstrong-cooper-wings-hockey-_1__large_square.png", primaryColor: "#292642", secondaryColor: "#E31422" },
           "academy of holy angels stars": { name: "Academy of Holy Angels", nickname: "Stars", logo: "https://cdn2.sportngin.com/attachments/team/5dca-151689530/holy-angels-stars-hockey-_1__large_square.png", primaryColor: "#0000BA", secondaryColor: "#E39E1D" },
-          "bagley/fosston flyers": { name: "Bagley/Fosston", nickname: "Flyers", logo: "https://cdn2.sportngin.com/attachments/team/865e-151897558/749a11df0b4cadd99bf301e62816258a9ea4035esld08_BFGCHockey_store_large_square.png", primaryColor: "#561C1B", secondaryColor: "#E39E1D" },
-          "spring lake park/coon rapids panthers": { name: "Spring Lake Park/Coon Rapids", nickname: "Panthers", logo: "https://cdn1.sportngin.com/attachments/team/fb06-206685309/slpcrlogo6_large_square.png", primaryColor: "#0000B7", secondaryColor: "#E60329" },
-          "maple grove crimson": { name: "Maple Grove", nickname: "Crimson", logo: "https://cdn1.sportngin.com/attachments/team/0782-151913572/MG_Crimson-Gold-_2__large_square.png", primaryColor: "#A00008", secondaryColor: "#E6DB99" },
-          "park rapids panthers": { name: "Park Rapids", nickname: "Panthers", logo: "https://cdn3.sportngin.com/attachments/team/6ca4-151863042/park-city-panthers-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#E8510D" },
-          "st. cloud crush": { name: "St. Cloud", nickname: "Crush", logo: "https://cdn1.sportngin.com/attachments/team/fc43-167481815/StCloudCrush_large_square.png", primaryColor: "#113595", secondaryColor: "#ED6E05" },
-          "providence academy lions": { name: "Providence Academy", nickname: "Lions", logo: "https://cdn3.sportngin.com/attachments/team/0233-151665883/providence-academy-lions-hockey_large_square.png", primaryColor: "#003A9C", secondaryColor: "#EEC60A" },
+          "albert lea tigers": { name: "Albert Lea", nickname: "Tigers", logo: "https://cdn2.sportngin.com/attachments/team/c7d9-149891114/AlbertLea_large_square.png", primaryColor: "#0000BA", secondaryColor: "#CF2329" },
+          "alexandria cardinals": { name: "Alexandria", nickname: "Cardinals", logo: "https://cdn3.sportngin.com/attachments/team/6b78-151624918/1alexandria-cardinals-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#CF2329" },
+          "andover huskies": { name: "Andover", nickname: "Huskies", logo: "https://cdn4.sportngin.com/attachments/team/7f7f-151913518/andover-huskies-hockey-_1__large_square.png", primaryColor: "#000000", secondaryColor: "#C5B358" },
+          "anoka tornadoes": { name: "Anoka", nickname: "Tornadoes", logo: "https://cdn2.sportngin.com/attachments/team/e252-151913899/anoka-hockey_large_square.png", primaryColor: "#441E20", secondaryColor: "#C0C0C0" },
+          "apple valley/burnsville thunder": { name: "Apple Valley/Burnsville", nickname: "Thunder", logo: "https://cdn2.sportngin.com/attachments/team/c82a-151937882/Apple_Valley_large_square_large_square_large_square.png", primaryColor: "#361E1F", secondaryColor: "#C0A686" },
+          "austin packers": { name: "Austin", nickname: "Packers", logo: "https://cdn3.sportngin.com/attachments/team/2e29-149918958/activities_large_square.png", primaryColor: "#666666", secondaryColor: "#CC0000" },
+          "bagley/fosston flyers": { name: "Bagley/Fosston", nickname: "Flyers", logo: "https://cdn2.sportngin.com/attachments/team/865e-151897558/749a11df0b4cadd99bf301e62816258a9ea4035esld08_BFGCHockey_store_large_square.png", primaryColor: "#56012B", secondaryColor: "#E39E1D" },
+          "becker/big lake eagles": { name: "Becker/Big Lake", nickname: "Eagles", logo: "https://cdn3.sportngin.com/attachments/team/5c41-151867105/1becker-big-lake-eagles-hockey_large_square.png", primaryColor: "#666666", secondaryColor: "#0577FA" },
+          "bemidji lumberjacks": { name: "Bemidji", nickname: "Lumberjacks", logo: "https://cdn3.sportngin.com/attachments/team/ae8e-151779535/bemidji-lumberjacks-hockey_large_square.png", primaryColor: "#013368", secondaryColor: "#999999" },
           "benilde-st. margaret's red knights": { name: "Benilde-St. Margaret's", nickname: "Red Knights", logo: "https://cdn4.sportngin.com/attachments/team/76a6-151815503/benilde-st-margaret-red-knights-hockey_large_square.png", primaryColor: "#666666", secondaryColor: "#EF131F" },
-          "edina hornets": { name: "Edina", nickname: "Hornets", logo: "https://cdn3.sportngin.com/attachments/team/c884-151725037/edina-hornets-hockey-_1__large_square.png", primaryColor: "#1A8440", secondaryColor: "#EFB035" },
+          "blaine bengals": { name: "Blaine", nickname: "Bengals", logo: "https://cdn4.sportngin.com/attachments/team/6ed9-151913528/blaine-bengals-hockey_large_square.png", primaryColor: "#001A77", secondaryColor: "#87BBF5" },
+          "blake bears": { name: "Blake", nickname: "Bears", logo: "https://cdn4.sportngin.com/attachments/team/8ea5-215318096/4kee5oJmMyal9vAa4CXBBx_w3300h2550_large_square.png", primaryColor: "#000080", secondaryColor: "#478430" },
+          "bloomington jefferson jaguars": { name: "Bloomington Jefferson", nickname: "Jaguars", logo: "https://cdn2.sportngin.com/attachments/team/2fc2-151834018/schoollogo1_400x400-copy_large_square.png", primaryColor: "#666666", secondaryColor: "#87BBF5" },
+          "brainerd warriors": { name: "Brainerd", nickname: "Warriors", logo: "https://cdn4.sportngin.com/attachments/team/9033-151634234/brainerd-warriors-hockey_large_square.png", primaryColor: "#223B98", secondaryColor: "#C0C0C0" },
+          "breck mustangs": { name: "Breck", nickname: "Mustangs", logo: "https://cdn1.sportngin.com/attachments/team/c481-151665104/breck-mustangs-hockey_large_square.png", primaryColor: "#024A72", secondaryColor: "#FECC00" },
+          "breckenridge/wahpeton blades": { name: "Breckenridge/Wahpeton", nickname: "Blades", logo: "https://cdn3.sportngin.com/attachments/team/ccff-196793539/BladesCircle2_FINAL-2_large_square.png", primaryColor: "#000000", secondaryColor: "#C0C0C0" },
+          "buffalo bison": { name: "Buffalo", nickname: "Bison", logo: "https://cdn3.sportngin.com/attachments/team/e818-151725160/buffalo-bisons-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#6600CC" },
+          "cambridge-isanti bluejackets": { name: "Cambridge-Isanti", nickname: "Bluejackets", logo: "https://cdn4.sportngin.com/attachments/team/5bb8-151867068/1cambridge-isanti-hockey_large_square.png", primaryColor: "#000095", secondaryColor: "#C0C0C0" },
+          "centennial cougars": { name: "Centennial", nickname: "Cougars", logo: "https://cdn2.sportngin.com/attachments/team/cef2-151905836/1centennal-cougars-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#D62724" },
+          "champlin park rebels": { name: "Champlin Park", nickname: "Rebels", logo: "https://cdn2.sportngin.com/attachments/team/38d3-151913866/logo_large_large_square.png", primaryColor: "#142985", secondaryColor: "#5A89E7" },
+          "chanhassen storm": { name: "Chanhassen", nickname: "Storm", logo: "https://cdn4.sportngin.com/attachments/team/8e27-151834799/chanhassen-storm-hockey_large_square.png", primaryColor: "#0E0F31", secondaryColor: "#C1B05F" },
+          "chaska hawks": { name: "Chaska", nickname: "Hawks", logo: "https://cdn1.sportngin.com/attachments/team/c5e3-151815251/1chaska-hawks-hockey_large_square.png", primaryColor: "#5B00A0", secondaryColor: "#F9F632" },
+          "chisago lakes wildcats": { name: "Chisago Lakes", nickname: "Wildcats", logo: "https://cdn1.sportngin.com/attachments/team/c474-151872918/Wildcat-_1__large_square.png", primaryColor: "#00420F", secondaryColor: "#FFB210" },
           "cloquet/esko/carlton lumberjacks": { name: "Cloquet/Esko/Carlton", nickname: "Lumberjacks", logo: "https://cdn1.sportngin.com/attachments/team/4be5-151767696/CEC_Lumberjack_medium_large_square.png", primaryColor: "#5B00A0", secondaryColor: "#EFB520" },
           "cretin-derham hall raiders": { name: "Cretin-Derham Hall", nickname: "Raiders", logo: "https://cdn4.sportngin.com/attachments/team/cb7c-151927920/1cretin-derham-hall-hockey_large_square.png", primaryColor: "#7B0484", secondaryColor: "#F0D803" },
-          "gentry academy stars": { name: "Gentry Academy", nickname: "Stars", logo: "https://cdn4.sportngin.com/attachments/team/8bac-151690534/Gentry_copy_large_square.png", primaryColor: "#000000", secondaryColor: "#DD2226" },
           "crookston pirates": { name: "Crookston", nickname: "Pirates", logo: "https://cdn2.sportngin.com/attachments/team/b077-151779804/crookston-pirates-hockey_large_square.png", primaryColor: "#2E1867", secondaryColor: "#F5DA19" },
-          "grand rapids thunderhawks": { name: "Grand Rapids", nickname: "Thunderhawks", logo: "https://cdn3.sportngin.com/attachments/team/a468-152076901/MSHSL115510GRHS_Secondary_large_square.png", primaryColor: "#000000", secondaryColor: "#F75408" },
+          "delano tigers": { name: "Delano", nickname: "Tigers", logo: "https://cdn3.sportngin.com/attachments/team/5112-152073362/1delano-tigers-hockey_large_square_large_square.png", primaryColor: "#000000", secondaryColor: "#FC6418" },
+          "detroit lakes lakers": { name: "Detroit Lakes", nickname: "Lakers", logo: "https://cdn2.sportngin.com/attachments/team/04ca-151862469/07ac69be6bb11994b72c9207dc591e1b_large_square.png", primaryColor: "#BD0000", secondaryColor: "#C0C0C0" },
+          "dodge county wildcats": { name: "Dodge County", nickname: "Wildcats", logo: "https://cdn3.sportngin.com/attachments/team/f13c-151914171/1wildcat-logo-2_large_square_large_square.png", primaryColor: "#000001", secondaryColor: "#2B60DE" },
+          "duluth denfeld hunters": { name: "Duluth Denfeld", nickname: "Hunters", logo: "https://cdn2.sportngin.com/attachments/team/9b7c-152161278/Untitled-1_large_square.png", primaryColor: "#56012B", secondaryColor: "#BFA04D" },
+          "duluth east greyhounds": { name: "Duluth East", nickname: "Greyhounds", logo: "https://cdn4.sportngin.com/attachments/team/9bc8-215114884/DuluthEastLogo_large_square.png", primaryColor: "#000002", secondaryColor: "#CC0202" },
           "duluth marshall hilltoppers": { name: "Duluth Marshall", nickname: "Hilltoppers", logo: "https://cdn3.sportngin.com/attachments/team/3c60-151768307/download-_3__large_square.png", primaryColor: "#000000", secondaryColor: "#F7C300" },
+          "eagan wildcats": { name: "Eagan", nickname: "Wildcats", logo: "https://cdn3.sportngin.com/attachments/team/2513-215087879/EaganLogo519_large_square.png", primaryColor: "#003399", secondaryColor: "#65FF01" },
+          "east grand forks green wave": { name: "East Grand Forks", nickname: "Green Wave", logo: "https://cdn2.sportngin.com/attachments/team/e494-151779249/east-grand-forks-hockey_large_square.png", primaryColor: "#00420F", secondaryColor: "#CC0000" },
+          "east ridge raptors": { name: "East Ridge", nickname: "Raptors", logo: "https://cdn1.sportngin.com/attachments/team/3d12-151942489/1east-ridge-raptors-hockey_large_square_large_square.png", primaryColor: "#000000", secondaryColor: "#C5B358" },
+          "eastview lightning": { name: "Eastview", nickname: "Lightning", logo: "https://cdn4.sportngin.com/attachments/team/da47-150000199/Untitled-1_large_square.png", primaryColor: "#3366FF", secondaryColor: "#CCD4E7" },
+          "eden prairie eagles": { name: "Eden Prairie", nickname: "Eagles", logo: "https://cdn3.sportngin.com/attachments/team/a752-151728057/logo-eagle-_1__large_square.png", primaryColor: "#000000", secondaryColor: "#9C0202" },
+          "edina hornets": { name: "Edina", nickname: "Hornets", logo: "https://cdn3.sportngin.com/attachments/team/c884-151725037/edina-hornets-hockey-_1__large_square.png", primaryColor: "#1A8440", secondaryColor: "#F7CD25" },
+          "elk river/zimmerman elks": { name: "Elk River/Zimmerman", nickname: "Elks", logo: "https://cdn4.sportngin.com/attachments/team/5114-151913628/elk-river-elks-hockey-_1__large_square.png", primaryColor: "#000000", secondaryColor: "#D00000" },
+          "ely timberwolves": { name: "Ely", nickname: "Timberwolves", logo: "https://cdn3.sportngin.com/attachments/team/4eb2-151691479/ely-timberwolves-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#9C0202" },
+          "fairmont cardinals": { name: "Fairmont", nickname: "Cardinals", logo: "https://cdn4.sportngin.com/attachments/team/36d5-150042624/fairmont-cardinal-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#7C0C00" },
+          "faribault falcons": { name: "Faribault", nickname: "Falcons", logo: "https://cdn4.sportngin.com/attachments/team/b571-149918671/faribault-falcons-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#155707" },
+          "farmington tigers": { name: "Farmington", nickname: "Tigers", logo: "https://cdn2.sportngin.com/attachments/team/0bbc-151937498/farmington-tigers-hockey-_2__large_square_large_square.png", primaryColor: "#000000", secondaryColor: "#DA6600" },
+          "fergus falls otters": { name: "Fergus Falls", nickname: "Otters", logo: "https://cdn3.sportngin.com/attachments/team/ac64-151634253/fergus-falls-otters-hockey_large_square.png", primaryColor: "#482B20", secondaryColor: "#FFB210" },
+          "forest lake rangers": { name: "Forest Lake", nickname: "Rangers", logo: "https://cdn4.sportngin.com/attachments/team/4b23-151942233/1forest-lake-rangers-hockey_large_square_large_square.png", primaryColor: "#611311", secondaryColor: "#DABB3C" },
+          "gentry academy stars": { name: "Gentry Academy", nickname: "Stars", logo: "https://cdn4.sportngin.com/attachments/team/8bac-151690534/Gentry_copy_large_square.png", primaryColor: "#000000", secondaryColor: "#DD2226" },
+          "grand rapids thunderhawks": { name: "Grand Rapids", nickname: "Thunderhawks", logo: "https://cdn3.sportngin.com/attachments/team/a468-152076901/MSHSL115510GRHS_Secondary_large_square.png", primaryColor: "#000000", secondaryColor: "#F75408" },
+          "greenway raiders": { name: "Greenway", nickname: "Raiders", logo: "https://cdn2.sportngin.com/attachments/team/cf86-151692129/EOMf7_MX4AUivJk_large_square.png", primaryColor: "#666666", secondaryColor: "#078A4D" },
+          "hastings raiders": { name: "Hastings", nickname: "Raiders", logo: "https://cdn2.sportngin.com/attachments/team/3cfa-151937576/hastings-raiders-hockey-_1__large_square_large_square.png", primaryColor: "#0139F0", secondaryColor: "#FFB210" },
           "hermantown hawks": { name: "Hermantown", nickname: "Hawks", logo: "https://cdn1.sportngin.com/attachments/team/520f-151767468/hermantown-hawks-hockey_large_square.png", primaryColor: "#081B77", secondaryColor: "#F7CD25" },
-          "international falls broncos": { name: "International Falls", nickname: "Broncos", logo: "https://cdn3.sportngin.com/attachments/team/6a0d-151710440/3838833_i-falls_large_square.png", primaryColor: "#653B9F", secondaryColor: "#F7CD25" },
-          "mankato east cougars": { name: "Mankato East", nickname: "Cougars", logo: "https://cdn3.sportngin.com/attachments/team/3607-149918607/mankato-east-cougars-hockey_large_square.png", primaryColor: "#070202", secondaryColor: "#F8C602" },
+          "hibbing/chisholm bluejackets": { name: "Hibbing/Chisholm", nickname: "Bluejackets", logo: "https://cdn3.sportngin.com/attachments/team/d019-151710402/hibbing-chisholm-bluejackets-hockey_large_square.png", primaryColor: "#666666", secondaryColor: "#0D358D" },
+          "hill-murray pioneers": { name: "Hill-Murray", nickname: "Pioneers", logo: "https://cdn1.sportngin.com/attachments/team/7dd9-151803365/hill-murry_hockey_copy-_1__large_square.png", primaryColor: "#000000", secondaryColor: "#006E25" },
+          "holy family fire": { name: "Holy Family", nickname: "Fire", logo: "https://cdn1.sportngin.com/attachments/team/3988-198880114/HF_Bold_White_large_square.png", primaryColor: "#000000", secondaryColor: "#24663C" },
+          "hopkins royals": { name: "Hopkins", nickname: "Royals", logo: "https://cdn2.sportngin.com/attachments/team/d52c-182981971/HopkinsLogo_large_square.png", primaryColor: "#666666", secondaryColor: "#000066" },
+          "hutchinson tigers": { name: "Hutchinson", nickname: "Tigers", logo: "https://cdn1.sportngin.com/attachments/team/c396-152074591/Untitled-1_large_square.png", primaryColor: "#000000", secondaryColor: "#FFB210" },
+          "international falls broncos": { name: "International Falls", nickname: "Broncos", logo: "https://cdn3.sportngin.com/attachments/team/6a0d-151710440/3838833_i-falls_large_square.png", primaryColor: "#5B00A0", secondaryColor: "#F7CD25" },
+          "irondale knights": { name: "Irondale", nickname: "Knights", logo: "https://cdn1.sportngin.com/attachments/team/363a-151943354/1irondale-knights-hockey_large_square_large_square.png", primaryColor: "#680000", secondaryColor: "#FCCE00" },
+          "kittson county central bearcats": { name: "Kittson County Central", nickname: "Bearcats", logo: "https://cdn2.sportngin.com/attachments/team/e3ec-151897016/New_Bearcat_large_square.png", primaryColor: "#185E0B", secondaryColor: "#929913" },
+          "la crescent-hokah lancers": { name: "La Crescent-Hokah", nickname: "Lancers", logo: "https://cdn1.sportngin.com/attachments/team/e415-151691131/new_la_crescent_large_square.png", primaryColor: "#000000", secondaryColor: "#048F63" },
+          "lake of the woods bears": { name: "Lake of the Woods", nickname: "Bears", logo: "https://cdn2.sportngin.com/attachments/team/8885-151897288/LOTW_YouthHockeyLogo_large_large_square.png", primaryColor: "#56012B", secondaryColor: "#FDBA38" },
+          "lakeville north panthers": { name: "Lakeville North", nickname: "Panthers", logo: "https://cdn1.sportngin.com/attachments/team/28b7-149999593/Nordique_OFFICIAL_1_large_square.png", primaryColor: "#000000", secondaryColor: "#9C0202" },
+          "lakeville south cougars": { name: "Lakeville South", nickname: "Cougars", logo: "https://cdn2.sportngin.com/attachments/team/3538-149841646/Lakeville_South_cougar-_1__large_square.png", primaryColor: "#730D12", secondaryColor: "#C0B27F" },
+          "litchfield/dassel-cokato dragons": { name: "Litchfield/Dassel-Cokato", nickname: "Dragons", logo: "https://cdn3.sportngin.com/attachments/team/69b3-198879758/LDC-New1.png_large_square.png", primaryColor: "#000000", secondaryColor: "#155707" },
+          "little falls flyers": { name: "Little Falls", nickname: "Flyers", logo: "https://cdn1.sportngin.com/attachments/team/2cc5-151655376/1little_falls_2_large_square.png", primaryColor: "#7F00FF", secondaryColor: "#666666" },
+          "luverne cardinals": { name: "Luverne", nickname: "Cardinals", logo: "https://cdn4.sportngin.com/attachments/team/7263-150040243/LuverneHockeyLogo_large_square.png", primaryColor: "#666666", secondaryColor: "#9C0202" },
+          "mahtomedi zephyrs": { name: "Mahtomedi", nickname: "Zephyrs", logo: "https://cdn3.sportngin.com/attachments/team/d0df-152162306/Mahtomedi-Zephyrs-Primary-M-Logo-1_large_square_large_square.png", primaryColor: "#00003B", secondaryColor: "#FFB210" },
+          "mankato east cougars": { name: "Mankato East", nickname: "Cougars", logo: "https://cdn3.sportngin.com/attachments/team/3607-149918607/mankato-east-cougars-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#F8C602" },
+          "mankato west scarlets": { name: "Mankato West", nickname: "Scarlets", logo: "https://cdn2.sportngin.com/attachments/team/928a-181704221/MankatoWestLogo-3_large_square.png", primaryColor: "#666666", secondaryColor: "#9C0202" },
+          "maple grove crimson": { name: "Maple Grove", nickname: "Crimson", logo: "https://cdn1.sportngin.com/attachments/team/0782-151913572/MG_Crimson-Gold-_2__large_square.png", primaryColor: "#A00008", secondaryColor: "#FFB210" },
+          "marshall tigers": { name: "Marshall", nickname: "Tigers", logo: "https://cdn2.sportngin.com/attachments/team/a97c-150039767/MarshallLogo_large_square.png", primaryColor: "#000000", secondaryColor: "#D76106" },
+          "minneapolis millers": { name: "Minneapolis", nickname: "Millers", logo: "https://cdn4.sportngin.com/attachments/team/78e4-151654134/1minneapolis-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#C0C0C0" },
+          "minnesota river bulldogs": { name: "Minnesota River", nickname: "Bulldogs", logo: "https://cdn2.sportngin.com/attachments/team/3123-150039289/MinnesotaRiverLogo_large_square.png", primaryColor: "#172EB0", secondaryColor: "#C0C0C0" },
+          "minnetonka skippers": { name: "Minnetonka", nickname: "Skippers", logo: "https://cdn3.sportngin.com/attachments/team/17b4-151725018/minnetonka-skippers-hockey-_1__large_square.png", primaryColor: "#666666", secondaryColor: "#063195" },
+          "monticello moose": { name: "Monticello", nickname: "Moose", logo: "https://cdn3.sportngin.com/attachments/team/9e6b-151872724/monticello-moose-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#C30000" },
+          "moorhead spuds": { name: "Moorhead", nickname: "Spuds", logo: "https://cdn1.sportngin.com/attachments/team/e4a9-151779660/moorhead-spuds-hockey-_1__large_square.png", primaryColor: "#000000", secondaryColor: "#FF6600" },
+          "moose lake area rebels": { name: "Moose Lake Area", nickname: "Rebels", logo: "https://cdn2.sportngin.com/attachments/team/ac1f-152985919/Moose_Lake_boys__hockey_logo_version_large_square.png", primaryColor: "#182DEB", secondaryColor: "#D30000" },
+          "mora/milaca mustangs": { name: "Mora/Milaca", nickname: "Mustangs", logo: "https://cdn4.sportngin.com/attachments/team/984b-167624178/MoraLogo4_large_square.png", primaryColor: "#000000", secondaryColor: "#031790" },
+          "morris/benson area storm": { name: "Morris/Benson Area", nickname: "Storm", logo: "https://cdn2.sportngin.com/attachments/team/ff51-151690771/Morris_hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#1E4BB6" },
+          "mounds view mustangs": { name: "Mounds View", nickname: "Mustangs", logo: "https://cdn4.sportngin.com/attachments/team/8dac-151942574/0mounds-view-mustangs-hockey_large_square_large_square.png", primaryColor: "#666666", secondaryColor: "#045302" },
+          "new prague trojans": { name: "New Prague", nickname: "Trojans", logo: "https://cdn2.sportngin.com/attachments/team/a7b1-152073448/1new-prague-trojans-hockey_large_square_large_square.png", primaryColor: "#000000", secondaryColor: "#9C0202" },
+          "new ulm eagles": { name: "New Ulm", nickname: "Eagles", logo: "https://cdn4.sportngin.com/attachments/team/9a1e-150038859/NewUlmLogo_large_square.png", primaryColor: "#000000", secondaryColor: "#79078A" },
+          "north shore storm": { name: "North Shore", nickname: "Storm", logo: "https://cdn4.sportngin.com/attachments/team/4ef9-151710721/north-shore-storm-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#C0C0C0" },
+          "northern edge red bulls": { name: "Northern Edge", nickname: "Red Bulls", logo: "https://cdn1.sportngin.com/attachments/team/b4f3-167547673/BlueNorthernEdgeLogo_large_square.png", primaryColor: "#00205B", secondaryColor: "#E21F39" },
+          "northern lakes lightning": { name: "Northern Lakes", nickname: "Lightning", logo: "https://cdn4.sportngin.com/attachments/team/21a2-168092682/NLLogonewest_large_square.png", primaryColor: "#000000", secondaryColor: "#FA0032" },
+          "northfield raiders": { name: "Northfield", nickname: "Raiders", logo: "https://cdn2.sportngin.com/attachments/team/efdc-152206539/northfield-raiders-hockey-_1__large_square.png", primaryColor: "#3B0000", secondaryColor: "#FFB210" },
+          "orono spartans": { name: "Orono", nickname: "Spartans", logo: "https://cdn2.sportngin.com/attachments/team/0abe-151950248/1orono-spartans-hockey_large_square.png", primaryColor: "#0519B0", secondaryColor: "#D00000" },
+          "osseo orioles": { name: "Osseo", nickname: "Orioles", logo: "https://cdn4.sportngin.com/attachments/team/9565-151913934/osseo-orioles-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#DA5700" },
+          "owatonna huskies": { name: "Owatonna", nickname: "Huskies", logo: "https://cdn3.sportngin.com/attachments/team/2f12-149937828/logo_medium_large_square.png", primaryColor: "#666666", secondaryColor: "#37599D" },
+          "park of cottage grove wolfpack": { name: "Park of Cottage Grove", nickname: "Wolfpack", logo: "https://cdn3.sportngin.com/attachments/team/2948-151928700/1park-cottage-grove-wolfpack-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#017F01" },
+          "park rapids panthers": { name: "Park Rapids", nickname: "Panthers", logo: "https://cdn3.sportngin.com/attachments/team/6ca4-151863042/park-city-panthers-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#E8510D" },
+          "pine city area dragons": { name: "Pine City Area", nickname: "Dragons", logo: "https://cdn4.sportngin.com/attachments/team/7d3e-152070174/1pine-city-dragons-hockey_large_square_large_square.png", primaryColor: "#000000", secondaryColor: "#016230" },
+          "prairie centre cardinals": { name: "Prairie Centre", nickname: "Cardinals", logo: "https://cdn1.sportngin.com/attachments/team/4d2f-151842392/prairie_centre_large_square.png", primaryColor: "#000000", secondaryColor: "#721A1D" },
+          "princeton tigers": { name: "Princeton", nickname: "Tigers", logo: "https://cdn2.sportngin.com/attachments/team/5eee-151872825/HighSchool_icon_C_large_square.png", primaryColor: "#000000", secondaryColor: "#D25D00" },
+          "prior lake lakers": { name: "Prior Lake", nickname: "Lakers", logo: "https://cdn1.sportngin.com/attachments/team/0580-151943997/prior-lake-lakers-hockey-_1__large_square_large_square.png", primaryColor: "#000035", secondaryColor: "#FFB210" },
+          "proctor rails": { name: "Proctor", nickname: "Rails", logo: "https://cdn1.sportngin.com/attachments/team/1c92-151768490/RailsHockeyCircleLogo_large_square.png", primaryColor: "#000000", secondaryColor: "#104C2A" },
+          "providence academy lions": { name: "Providence Academy", nickname: "Lions", logo: "https://cdn3.sportngin.com/attachments/team/0233-151665883/providence-academy-lions-hockey_large_square.png", primaryColor: "#003A9C", secondaryColor: "#EEC60A" },
+          "red lake falls eagles": { name: "Red Lake Falls", nickname: "Eagles", logo: "https://cdn1.sportngin.com/attachments/team/d245-151887023/1Eagle_Hockey_-_white2_large_square.png", primaryColor: "#000000", secondaryColor: "#79078A" },
+          "red wing wingers": { name: "Red Wing", nickname: "Wingers", logo: "https://cdn2.sportngin.com/attachments/team/78ee-149965836/red-wing-wingers-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#811AD6" },
+          "redwood valley cardinals": { name: "Redwood Valley", nickname: "Cardinals", logo: "https://cdn2.sportngin.com/attachments/team/0371-150042906/RedwoodValleyHockeyLogo_large_square.png", primaryColor: "#000000", secondaryColor: "#9C0202" },
+          "river lakes stars": { name: "River Lakes", nickname: "Stars", logo: "https://cdn3.sportngin.com/attachments/team/2772-151625544/12river-lakes-stars-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#9C0202" },
+          "robbinsdale armstrong/cooper wings": { name: "Robbinsdale Armstrong/Cooper", nickname: "Wings", logo: "https://cdn4.sportngin.com/attachments/team/d4f2-151913653/robbinsdale-armstrong-cooper-wings-hockey-_1__large_square.png", primaryColor: "#24266B", secondaryColor: "#E31422" },
+          "rochester century/jm panthers": { name: "Rochester Century/JM", nickname: "Panthers", logo: "https://cdn1.sportngin.com/attachments/team/e3f3-149937691/rochester-century-panthers-hockey_large_square.png", primaryColor: "#666666", secondaryColor: "#01017C" },
+          "rochester lourdes eagles": { name: "Rochester Lourdes", nickname: "Eagles", logo: "https://cdn1.sportngin.com/attachments/team/a6f4-151666477/Athletic_webimages7_large_square.png", primaryColor: "#330066", secondaryColor: "#FFB210" },
+          "rochester mayo spartans": { name: "Rochester Mayo", nickname: "Spartans", logo: "https://cdn1.sportngin.com/attachments/team/50c8-149937902/images_large_square.png", primaryColor: "#187018", secondaryColor: "#C5B358" },
+          "rock ridge wolverines": { name: "Rock Ridge", nickname: "Wolverines", logo: "https://cdn4.sportngin.com/attachments/team/dc2f-166964797/RockRidgeLogo3_large_square.png", primaryColor: "#000000", secondaryColor: "#03520C" },
+          "rogers royals": { name: "Rogers", nickname: "Royals", logo: "https://cdn4.sportngin.com/attachments/team/4697-151913761/rogers-royals-hockey-_1__large_square.png", primaryColor: "#000000", secondaryColor: "#0000FF" },
+          "roseau rams": { name: "Roseau", nickname: "Rams", logo: "https://cdn4.sportngin.com/attachments/team/726d-151767657/1roseau-rams-hockey_large_square.png", primaryColor: "#666666", secondaryColor: "#265108" },
+          "rosemount irish": { name: "Rosemount", nickname: "Irish", logo: "https://cdn2.sportngin.com/attachments/team/f4a2-199862227/R-with-Stick-Logo_large_square.png", primaryColor: "#000066", secondaryColor: "#00A302" },
+          "roseville raiders": { name: "Roseville", nickname: "Raiders", logo: "https://cdn3.sportngin.com/attachments/team/a555-151943684/0roseville-raiders-hockey_large_square_large_square.png", primaryColor: "#000000", secondaryColor: "#999999" },
+          "sartell sabres": { name: "Sartell", nickname: "Sabres", logo: "https://cdn2.sportngin.com/attachments/team/13e3-182346014/Scripted_S__large_square3_large_square.png", primaryColor: "#2953CF", secondaryColor: "#C6C6C6" },
+          "sauk rapids-rice storm": { name: "Sauk Rapids-Rice", nickname: "Storm", logo: "https://cdn3.sportngin.com/attachments/team/4e55-152225527/stormbolt_large_square.png", primaryColor: "#00420F", secondaryColor: "#FFB210" },
+          "shakopee sabers": { name: "Shakopee", nickname: "Sabers", logo: "https://cdn3.sportngin.com/attachments/team/62da-151937735/Saber_Head_PNG_large_square_large_square.png", primaryColor: "#666666", secondaryColor: "#5E0000" },
+          "simley spartans": { name: "Simley", nickname: "Spartans", logo: "https://cdn3.sportngin.com/attachments/team/caa0-151804224/simley-spartans-hockey_large_square.png", primaryColor: "#24266B", secondaryColor: "#C01B10" },
+          "south st. paul packers": { name: "South St. Paul", nickname: "Packers", logo: "https://cdn1.sportngin.com/attachments/team/1c50-151805197/south-saint-paul-packers-hockey_large_square.png", primaryColor: "#666666", secondaryColor: "#800000" },
+          "southwest christian/richfield stars": { name: "Southwest Christian/Richfield", nickname: "Stars", logo: "https://cdn3.sportngin.com/attachments/team/c8e8-182411031/SWChristianLogo3_large_square.png", primaryColor: "#666666", secondaryColor: "#8A171B" },
+          "spring lake park/coon rapids panthers": { name: "Spring Lake Park/Coon Rapids", nickname: "Panthers", logo: "https://cdn1.sportngin.com/attachments/team/fb06-206685309/slpcrlogo6_large_square.png", primaryColor: "#0000B7", secondaryColor: "#E60329" },
+          "st. cloud crush": { name: "St. Cloud", nickname: "Crush", logo: "https://cdn1.sportngin.com/attachments/team/fc43-167481815/StCloudCrush_large_square.png", primaryColor: "#113595", secondaryColor: "#ED6E05" },
+          "st. cloud cathedral crusaders": { name: "St. Cloud Cathedral", nickname: "Crusaders", logo: "https://cdn4.sportngin.com/attachments/team/511f-151688940/st-cloud-cathedral-crusaders-hockey_large_square.png", primaryColor: "#0D0DA3", secondaryColor: "#FCCC00" },
+          "st. louis park orioles": { name: "St. Louis Park", nickname: "Orioles", logo: "https://cdn1.sportngin.com/attachments/team/a531-151815462/1image001__2__large_square.png", primaryColor: "#000000", secondaryColor: "#D35400" },
+          "st. michael-albertville knights": { name: "St. Michael-Albertville", nickname: "Knights", logo: "https://cdn4.sportngin.com/attachments/team/9003-151725125/STMA__1__large_square.png", primaryColor: "#0000D9", secondaryColor: "#FECC00" },
+          "st. paul blizzard": { name: "St. Paul", nickname: "Blizzard", logo: "https://cdn1.sportngin.com/attachments/team/c436-213768835/StPaulLogo_large_square.png", primaryColor: "#666666", secondaryColor: "#0737A0" },
+          "st. paul academy spartans": { name: "St. Paul Academy", nickname: "Spartans", logo: "https://cdn3.sportngin.com/attachments/team/0993-151653521/1st-paul-academy-spartans-hockey_large_square.png", primaryColor: "#0A243B", secondaryColor: "#D5AA41" },
+          "st. thomas academy cadets": { name: "St. Thomas Academy", nickname: "Cadets", logo: "https://cdn4.sportngin.com/attachments/team/8ec8-151937343/1saint-thomas-cadets-hockey_large_square_large_square.png", primaryColor: "#666666", secondaryColor: "#000066" },
+          "stillwater ponies": { name: "Stillwater", nickname: "Ponies", logo: "https://cdn1.sportngin.com/attachments/team/17de-151928095/0Pony__6__large_square.png", primaryColor: "#000000", secondaryColor: "#9C0202" },
+          "tartan titans": { name: "Tartan", nickname: "Titans", logo: "https://cdn2.sportngin.com/attachments/team/a353-215300611/TartanLogo_large_square.png", primaryColor: "#000000", secondaryColor: "#0000C4" },
+          "thief river falls prowlers": { name: "Thief River Falls", nickname: "Prowlers", logo: "https://cdn4.sportngin.com/attachments/team/a6fa-151779472/thief-river-falls-prowlers-hockey_large_square.png", primaryColor: "#0B1881", secondaryColor: "#FECC00" },
+          "totino-grace eagles": { name: "Totino-Grace", nickname: "Eagles", logo: "https://cdn3.sportngin.com/attachments/team/88eb-151913716/totino-grace-eagles-hockey-_1__large_square.png", primaryColor: "#000066", secondaryColor: "#FFB210" },
+          "two rivers warriors": { name: "Two Rivers", nickname: "Warriors", logo: "https://cdn2.sportngin.com/attachments/team/0e90-182415323/TwoRiversLogo3_large_square.png", primaryColor: "#999999", secondaryColor: "#D30F2D" },
           "waconia wildcats": { name: "Waconia", nickname: "Wildcats", logo: "https://cdn1.sportngin.com/attachments/team/3eb4-152073575/1Waconia_W_Transparent_large_square_large_square.png", primaryColor: "#1F0C5B", secondaryColor: "#F9B400" },
           "wadena-deer creek wolverines": { name: "Wadena-Deer Creek", nickname: "Wolverines", logo: "https://cdn2.sportngin.com/attachments/team/e736-151840823/1wadena-deer-river-wolverines_large_square.png", primaryColor: "#000066", secondaryColor: "#F9B400" },
           "warroad warriors": { name: "Warroad", nickname: "Warriors", logo: "https://cdn3.sportngin.com/attachments/team/c497-151779196/warroad-warriors-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#F9B400" },
           "waseca bluejays": { name: "Waseca", nickname: "Bluejays", logo: "https://cdn1.sportngin.com/attachments/team/ccad-150040363/WasecaHockeyLogo_large_square.png", primaryColor: "#102366", secondaryColor: "#F9D018" },
-          "windom eagles": { name: "Windom", nickname: "Eagles", logo: "https://cdn1.sportngin.com/attachments/team/c4b0-214590596/Eagle-Mascot-Only2_large_square.png", primaryColor: "#05539B", secondaryColor: "#F9D018" },
-          "chaska hawks": { name: "Chaska", nickname: "Hawks", logo: "https://cdn1.sportngin.com/attachments/team/c5e3-151815251/1chaska-hawks-hockey_large_square.png", primaryColor: "#66017B", secondaryColor: "#F9F632" },
-          "northern lakes lightning": { name: "Northern Lakes", nickname: "Lightning", logo: "https://cdn4.sportngin.com/attachments/team/21a2-168092682/NLLogonewest_large_square.png", primaryColor: "#000000", secondaryColor: "#FA0032" },
-          "delano tigers": { name: "Delano", nickname: "Tigers", logo: "https://cdn3.sportngin.com/attachments/team/5112-152073362/1delano-tigers-hockey_large_square_large_square.png", primaryColor: "#000000", secondaryColor: "#FC6418" },
-          "st. cloud cathedral crusaders": { name: "St. Cloud Cathedral", nickname: "Crusaders", logo: "https://cdn4.sportngin.com/attachments/team/511f-151688940/st-cloud-cathedral-crusaders-hockey_large_square.png", primaryColor: "#0D0DA3", secondaryColor: "#FCCC00" },
-          "irondale knights": { name: "Irondale", nickname: "Knights", logo: "https://cdn1.sportngin.com/attachments/team/363a-151943354/1irondale-knights-hockey_large_square_large_square.png", primaryColor: "#680000", secondaryColor: "#FCCE00" },
-          "lake of the woods bears": { name: "Lake of the Woods", nickname: "Bears", logo: "https://cdn2.sportngin.com/attachments/team/8885-151897288/LOTW_YouthHockeyLogo_large_large_square.png", primaryColor: "#59212E", secondaryColor: "#FDBA38" },
-          "st. michael-albertville knights": { name: "St. Michael-Albertville", nickname: "Knights", logo: "https://cdn4.sportngin.com/attachments/team/9003-151725125/STMA__1__large_square.png", primaryColor: "#0000D9", secondaryColor: "#FECC00" },
-          "breck mustangs": { name: "Breck", nickname: "Mustangs", logo: "https://cdn1.sportngin.com/attachments/team/c481-151665104/breck-mustangs-hockey_large_square.png", primaryColor: "#024A72", secondaryColor: "#FECC00" },
-          "thief river falls prowlers": { name: "Thief River Falls", nickname: "Prowlers", logo: "https://cdn4.sportngin.com/attachments/team/a6fa-151779472/thief-river-falls-prowlers-hockey_large_square.png", primaryColor: "#0B1881", secondaryColor: "#FECC00" },
-          "moorhead spuds": { name: "Moorhead", nickname: "Spuds", logo: "https://cdn1.sportngin.com/attachments/team/e4a9-151779660/moorhead-spuds-hockey-_1__large_square.png", primaryColor: "#000000", secondaryColor: "#FF6600" },
-          "white bear lake bears": { name: "White Bear Lake", nickname: "Bears", logo: "https://cdn3.sportngin.com/attachments/team/b32f-151942054/0white-bear-lake-bears-hockey_large_square_large_square.png", primaryColor: "#000000", secondaryColor: "#FF6600" },
-          "hastings raiders": { name: "Hastings", nickname: "Raiders", logo: "https://cdn2.sportngin.com/attachments/team/3cfa-151937576/hastings-raiders-hockey-_1__large_square_large_square.png", primaryColor: "#0139F0", secondaryColor: "#FFB210" },
-          "chisago lakes wildcats": { name: "Chisago Lakes", nickname: "Wildcats", logo: "https://cdn1.sportngin.com/attachments/team/c474-151872918/Wildcat-_1__large_square.png", primaryColor: "#006633", secondaryColor: "#FFB210" },
-          "hutchinson tigers": { name: "Hutchinson", nickname: "Tigers", logo: "https://cdn1.sportngin.com/attachments/team/c396-152074591/Untitled-1_large_square.png", primaryColor: "#000000", secondaryColor: "#FFB210" },
-          "mahtomedi zephyrs": { name: "Mahtomedi", nickname: "Zephyrs", logo: "https://cdn3.sportngin.com/attachments/team/d0df-152162306/Mahtomedi-Zephyrs-Primary-M-Logo-1_large_square_large_square.png", primaryColor: "#00003B", secondaryColor: "#FFB210" },
-          "northfield raiders": { name: "Northfield", nickname: "Raiders", logo: "https://cdn2.sportngin.com/attachments/team/efdc-152206539/northfield-raiders-hockey-_1__large_square.png", primaryColor: "#3B0000", secondaryColor: "#FFB210" },
-          "prior lake lakers": { name: "Prior Lake", nickname: "Lakers", logo: "https://cdn1.sportngin.com/attachments/team/0580-151943997/prior-lake-lakers-hockey-_1__large_square_large_square.png", primaryColor: "#000035", secondaryColor: "#FFB210" },
-          "totino-grace eagles": { name: "Totino-Grace", nickname: "Eagles", logo: "https://cdn3.sportngin.com/attachments/team/88eb-151913716/totino-grace-eagles-hockey-_1__large_square.png", primaryColor: "#000066", secondaryColor: "#FFB210" },
           "wayzata trojans": { name: "Wayzata", nickname: "Trojans", logo: "https://cdn1.sportngin.com/attachments/team/5fbc-151725085/wayzata-trojans-hockey-_1__large_square.png", primaryColor: "#0000FF", secondaryColor: "#FFB210" },
-          "sauk rapids-rice storm": { name: "Sauk Rapids-Rice", nickname: "Storm", logo: "https://cdn3.sportngin.com/attachments/team/4e55-152225527/stormbolt_large_square.png", primaryColor: "#00420F", secondaryColor: "#FFB210" },
-          "fergus falls otters": { name: "Fergus Falls", nickname: "Otters", logo: "https://cdn3.sportngin.com/attachments/team/ac64-151634253/fergus-falls-otters-hockey_large_square.png", primaryColor: "#482B20", secondaryColor: "#FFB210" },
-          "rochester lourdes eagles": { name: "Rochester Lourdes", nickname: "Eagles", logo: "https://cdn1.sportngin.com/attachments/team/a6f4-151666477/Athletic_webimages7_large_square.png", primaryColor: "#330066", secondaryColor: "#FFB210" }
+          "westonka white hawks": { name: "Westonka", nickname: "White Hawks", logo: "https://cdn4.sportngin.com/attachments/team/2e80-214965059/Westonka3_large_square.png", primaryColor: "#000000", secondaryColor: "#DD2219" },
+          "white bear lake bears": { name: "White Bear Lake", nickname: "Bears", logo: "https://cdn3.sportngin.com/attachments/team/b32f-151942054/0white-bear-lake-bears-hockey_large_square_large_square.png", primaryColor: "#000000", secondaryColor: "#FF6600" },
+          "willmar cardinals": { name: "Willmar", nickname: "Cardinals", logo: "https://cdn2.sportngin.com/attachments/team/364d-151626458/1willmar-cardinals-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#DD2226" },
+          "windom eagles": { name: "Windom", nickname: "Eagles", logo: "https://cdn1.sportngin.com/attachments/team/c4b0-214590596/Eagle-Mascot-Only2_large_square.png", primaryColor: "#05539B", secondaryColor: "#F9D018" },
+          "winona winhawks": { name: "Winona", nickname: "Winhawks", logo: "https://cdn3.sportngin.com/attachments/team/2400-149919147/winona-hawks-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#DF5D1F" },
+          "woodbury royals": { name: "Woodbury", nickname: "Royals", logo: "https://cdn2.sportngin.com/attachments/team/946d-151943495/1woodbury-royals-hockey_large_square_large_square.png", primaryColor: "#666666", secondaryColor: "#023399" },
+          "worthington trojans": { name: "Worthington", nickname: "Trojans", logo: "https://cdn4.sportngin.com/attachments/team/0122-150042417/worthington-trojans-hockey_large_square.png", primaryColor: "#000000", secondaryColor: "#9C0202" },
+          "nd - bismarck demons": { name: "ND - Bismarck", nickname: "Demons", logo: "https://cdn3.sportngin.com/attachments/team/87f1-206335524/292117080_468107235315323_8518055302189953255_n_large_square.jpg", primaryColor: "#000000", secondaryColor: "#6B2737" },
+          "nd - bismarck century patriots": { name: "ND - Bismarck Century", nickname: "Patriots", logo: "https://cdn1.sportngin.com/attachments/team/ee1f-215379340/CenturyHighSchoolPrimaryLogoImage_large_square.png", primaryColor: "#003087", secondaryColor: "#CC0000" },
+          "nd - bottineau/rugby braves": { name: "ND - Bottineau/Rugby", nickname: "Braves", logo: "https://se-team-service-production.s3.amazonaws.com/uploads/team/logo/11ef97ab-502a-c1b2-bad1-7e38ad93b9d4/large_square_Braves_2024.png", primaryColor: "#4B0082", secondaryColor: "#FF6600" },
+          "nd - devil's lake cardinals": { name: "ND - Devil's Lake", nickname: "Cardinals", logo: "https://cdn2.sportngin.com/attachments/team/7cc6-206335643/305938959_527679146027946_977289989533614777_n_large_square.jpg", primaryColor: "#6B2737", secondaryColor: "#D5AA41" },
+          "nd - dickinson mavericks": { name: "ND - Dickinson", nickname: "Mavericks", logo: "https://cdn2.sportngin.com/attachments/team/a104-214517524/512_large_square.jpg", primaryColor: "#000000", secondaryColor: "#FF6600" },
+          "nd - fargo davies eagles": { name: "ND - Fargo Davies", nickname: "Eagles", logo: "https://cdn1.sportngin.com/attachments/team/11aa-183869966/FargoDavies_large_square.png", primaryColor: "#003087", secondaryColor: "#C8A84B" },
+          "nd - fargo north spartans": { name: "ND - Fargo North", nickname: "Spartans", logo: "https://cdn2.sportngin.com/attachments/team/fcb2-183432400/North_large_square.png", primaryColor: "#003087", secondaryColor: "#C8A84B" },
+          "nd - fargo shanley deacons": { name: "ND - Fargo Shanley", nickname: "Deacons", logo: "https://cdn3.sportngin.com/attachments/team/f350-214859976/FargoShanleyLogo_large_square.png", primaryColor: "#003087", secondaryColor: "#C8A84B" },
+          "nd - grafton/park river spoilers": { name: "ND - Grafton/Park River", nickname: "Spoilers", logo: "https://cdn2.sportngin.com/attachments/team/b582-185083450/GraftonParkRiverLogo_large_square.png", primaryColor: "#6B2737", secondaryColor: "#C8A84B" },
+          "nd - grand forks central knights": { name: "ND - Grand Forks Central", nickname: "Knights", logo: "https://cdn2.sportngin.com/attachments/team/ff2f-182913248/GFC-Knight_Color_lg_large_square.png", primaryColor: "#6B0F2A", secondaryColor: "#808080" },
+          "nd - grand forks red river roughriders": { name: "ND - Grand Forks Red River", nickname: "Roughriders", logo: "https://cdn1.sportngin.com/attachments/team/1d7f-183431558/GFRRlogo_large_square.png", primaryColor: "#000000", secondaryColor: "#CC0000" },
+          "nd - hazen/beulah bison": { name: "ND - Hazen/Beulah", nickname: "Bison", logo: "https://se-team-service-production.s3.amazonaws.com/uploads/team/logo/11f0b335-96d5-0220-92c4-6e5a71acf776/large_square_hs_logo_no_background.jpg", primaryColor: "#00420F", secondaryColor: "#FFD700" },
+          "nd - jamestown blue jays": { name: "ND - Jamestown", nickname: "Blue Jays", logo: "https://cdn2.sportngin.com/attachments/team/e969-206336551/CF4vIsPC_400x400_large_square.jpg", primaryColor: "#000000", secondaryColor: "#003087" },
+          "nd - mandan braves": { name: "ND - Mandan", nickname: "Braves", logo: "https://cdn4.sportngin.com/attachments/team/e219-206336780/af-j8yoE_400x400_large_square.jpg", primaryColor: "#000000", secondaryColor: "#C0C0C0" },
+          "nd - mayville/portland pirates": { name: "ND - Mayville/Portland", nickname: "Pirates", logo: "https://cdn3.sportngin.com/attachments/team/eaaa-183082783/IceDogsLogo_large_square.png", primaryColor: "#003087", secondaryColor: "#CC0000" },
+          "nd - minot magicians": { name: "ND - Minot", nickname: "Magicians", logo: "https://cdn3.sportngin.com/attachments/team/adf9-183432034/20220214064641_886_mascot720Near_large_square.png", primaryColor: "#4B0082", secondaryColor: "#FFD700" },
+          "nd - west fargo packers": { name: "ND - West Fargo", nickname: "Packers", logo: "https://cdn3.sportngin.com/attachments/team/f254-215383636/WestFargoLogo_large_square.png", primaryColor: "#000000", secondaryColor: "#00420F" },
+          "nd - west fargo sheyenne mustangs": { name: "ND - West Fargo Sheyenne", nickname: "Mustangs", logo: "https://cdn3.sportngin.com/attachments/team/d7f9-182351697/WF_Sheyenne_large_square.png", primaryColor: "#003087", secondaryColor: "#FF6600" },
+          "nd - williston coyotes": { name: "ND - Williston", nickname: "Coyotes", logo: "https://cdn2.sportngin.com/attachments/team/f6e2-206337123/3H31mzeB_400x400_large_square.jpg", primaryColor: "#000000", secondaryColor: "#FF6600" },
+          "sd - aberdeen central golden eagles": { name: "SD - Aberdeen Central", nickname: "Golden Eagles", logo: "https://crossbar.s3.amazonaws.com/organizations/1834/uploads/c0f6b4f3-5f0c-47b8-bf0a-86dbdd67255c.png?versionId=yqEPS6Q5S2GTmE.atE1vbqKtG40VtyMB", primaryColor: "#003087", secondaryColor: "#C8A84B" },
+          "sd - brookings rangers": { name: "SD - Brookings", nickname: "Rangers", logo: "https://cdn1.sportngin.com/attachments/team/7cf1-141947057/rangers_B_logo_without_wordmark_large_square.png", primaryColor: "#003087", secondaryColor: "#CC0000" },
+          "wi - amery warriors": { name: "WI - Amery", nickname: "Warriors", logo: "https://cdn4.sportngin.com/attachments/team/7fdc-215306484/AmeryLogo_large_square.png", primaryColor: "#000000", secondaryColor: "#CC0000" },
+          "wi - antigo raiders": { name: "WI - Antigo", nickname: "Raiders", logo: "https://cdn1.sportngin.com/attachments/team/38bc-170612731/Antigo_large_square.png", primaryColor: "#6B2737", secondaryColor: "#808080" },
+          "wi - baldwin-woodville blackhawks": { name: "WI - Baldwin-Woodville", nickname: "Blackhawks", logo: "https://cdn2.sportngin.com/attachments/team/7264-183432740/BWlogo_large_square.png", primaryColor: "#000000", secondaryColor: "#CC0000" },
+          "wi - black river falls tigers": { name: "WI - Black River Falls", nickname: "Tigers", logo: "https://cdn3.sportngin.com/attachments/team/9951-183704678/BRFLogo4_large_square.png", primaryColor: "#000000", secondaryColor: "#FF6600" },
+          "wi - brookfield trojans": { name: "WI - Brookfield", nickname: "Trojans", logo: "https://cdn3.sportngin.com/attachments/team/dc77-183675516/Brookfield_large_square.png", primaryColor: "#003087", secondaryColor: "#FFD700" },
+          "wi - chippewa falls cardinals": { name: "WI - Chippewa Falls", nickname: "Cardinals", logo: "https://cdn2.sportngin.com/attachments/team/2985/8047/Web_Image_large_square.jpg", primaryColor: "#000000", secondaryColor: "#CC0000" },
+          "wi - chippewa falls mcdonell macks": { name: "WI - Chippewa Falls McDonell", nickname: "Macks", logo: "https://image.maxpreps.io/school-mascot/9/5/0/9508e9e7-4186-4a42-a4f2-65a44614dc3e.gif?version=636241330200000000&width=256&height=256&auto=webp&format=pjpg", primaryColor: "#003087", secondaryColor: "#C8A84B" },
+          "wi - de pere redbirds": { name: "WI - De Pere", nickname: "Redbirds", logo: "https://cdn3.sportngin.com/attachments/team/0537/2453/de_pere_large_square.jpg", primaryColor: "#000000", secondaryColor: "#CC0000" },
+          "wi - eau claire memorial old abes": { name: "WI - Eau Claire Memorial", nickname: "Old Abes", logo: "https://cdn2.sportngin.com/attachments/team/fccf-167403996/Old_abes_logo_large_square.jpeg", primaryColor: "#4B0082", secondaryColor: "#C0C0C0" },
+          "wi - eau claire north huskies": { name: "WI - Eau Claire North", nickname: "Huskies", logo: "https://cdn1.sportngin.com/attachments/team/92a1-114120381/Husky_Head_-_Color_large_square.png", primaryColor: "#000000", secondaryColor: "#5B9BD5" },
+          "wi - fox cities stars": { name: "WI - Fox Cities", nickname: "Stars", logo: "https://cdn2.sportngin.com/attachments/team/fd46-183431872/New_Stars2_large_large_square.png", primaryColor: "#003087", secondaryColor: "#CC0000" },
+          "wi - hayward hurricanes": { name: "WI - Hayward", nickname: "Hurricanes", logo: "https://cdn2.sportngin.com/attachments/team/7215-182913843/HaywardLogo_large_square.png", primaryColor: "#000000", secondaryColor: "#C8A84B" },
+          "wi - hudson raiders": { name: "WI - Hudson", nickname: "Raiders", logo: "https://cdn1.sportngin.com/attachments/team/a060-167729899/HudsonLogo_large_square.png", primaryColor: "#003087", secondaryColor: "#C0C0C0" },
+          "wi - la crosse aquinas blugolds": { name: "WI - La Crosse Aquinas", nickname: "Blugolds", logo: "https://cdn1.sportngin.com/attachments/team/3d56-182913833/AquinasHolmenLogo_large_square.png", primaryColor: "#6B2737", secondaryColor: "#C8A84B" },
+          "wi - lakeland t-birds": { name: "WI - Lakeland", nickname: "T-Birds", logo: "https://cdn3.sportngin.com/attachments/team/0538/6987/lakeland_large_square.jpg", primaryColor: "#000000", secondaryColor: "#FFD700" },
+          "wi - madison edgewood crusaders": { name: "WI - Madison Edgewood", nickname: "Crusaders", logo: "https://cdn4.sportngin.com/attachments/team/0537/2041/edgewood_large_square.jpg", primaryColor: "#6B2737", secondaryColor: "#C8A84B" },
+          "wi - madison memorial spartans": { name: "WI - Madison Memorial", nickname: "Spartans", logo: "https://cdn1.sportngin.com/attachments/team/0550/3881/madison_mem_large_square.jpg", primaryColor: "#00420F", secondaryColor: "#C0C0C0" },
+          "wi - mcfarland spartans": { name: "WI - McFarland", nickname: "Spartans", logo: "https://cdn4.sportngin.com/attachments/team/f942-195817200/IMG_8614_large_square.jpeg", primaryColor: "#003087", secondaryColor: "#C0C0C0" },
+          "wi - medford raiders": { name: "WI - Medford", nickname: "Raiders", logo: "https://cdn4.sportngin.com/attachments/team/97f5-214641315/Grinker_11FIN_horse_knight-removebg-preview__1__large_square.png", primaryColor: "#000000", secondaryColor: "#CC0000" },
+          "wi - menomonie cardinals": { name: "WI - Menomonie", nickname: "Cardinals", logo: "https://se-team-service-production.s3.amazonaws.com/uploads/team/logo/11ef69eb-6e33-8c0e-a2df-ae03d399413e/large_square_High_School_Hockey_Logo.jpg", primaryColor: "#000000", secondaryColor: "#6B2737" },
+          "wi - new richmond tigers": { name: "WI - New Richmond", nickname: "Tigers", logo: "https://cdn4.sportngin.com/attachments/team/0561-183432760/NewRichmondlogo_large_square.png", primaryColor: "#000000", secondaryColor: "#FF6600" },
+          "wi - northwest icemen icemen": { name: "WI - Northwest Icemen", nickname: "Icemen", logo: "https://cdn1.sportngin.com/attachments/team/1a2d-215757090/NorthwestIcemen_large_square.png", primaryColor: "#003087", secondaryColor: "#CC0000" },
+          "wi - notre dame tritons": { name: "WI - Notre Dame", nickname: "Tritons", logo: "https://cdn2.sportngin.com/attachments/team/0120-151449830/Notre_Dame_Cursive_Logo_large_square.jpg", primaryColor: "#003087", secondaryColor: "#006400" },
+          "wi - onalaska/la crosse hilltoppers": { name: "WI - Onalaska/La Crosse", nickname: "Hilltoppers", logo: "https://cdn4.sportngin.com/attachments/team/899f-183705196/OHS-Purple-Logo3_large_square.png", primaryColor: "#6A0DAD", secondaryColor: "#CCD4E7" },
+          "wi - reedsburg beavers": { name: "WI - Reedsburg", nickname: "Beavers", logo: "https://cdn3.sportngin.com/attachments/team/00d0-200522766/New_RWD_Logo-0324_large_square.jpg", primaryColor: "#CC0000", secondaryColor: "#C8A84B" },
+          "wi - rhinelander hodags": { name: "WI - Rhinelander", nickname: "Hodags", logo: "https://cdn1.sportngin.com/attachments/team/0538/7363/rhinelander_large_square.jpg", primaryColor: "#000000", secondaryColor: "#2E8B57" },
+          "wi - rice lake warriors": { name: "WI - Rice Lake", nickname: "Warriors", logo: "https://cdn3.sportngin.com/attachments/team/e127-170612699/Rice_Lake_large_square.png", primaryColor: "#003087", secondaryColor: "#C8A84B" },
+          "wi - river falls wildcats": { name: "WI - River Falls", nickname: "Wildcats", logo: "https://cdn4.sportngin.com/attachments/team/4297-183072525/RiverFallsLogo_large_square.png", primaryColor: "#003087", secondaryColor: "#C8A84B" },
+          "wi - somerset spartans": { name: "WI - Somerset", nickname: "Spartans", logo: "https://cdn4.sportngin.com/attachments/team/96f4-183431644/SomersetLogo_large_square.png", primaryColor: "#000000", secondaryColor: "#CC0000" },
+          "wi - spooner rails": { name: "WI - Spooner", nickname: "Rails", logo: "https://cdn1.sportngin.com/attachments/team/e61d-184273135/SpoonerLogo_large_square.png", primaryColor: "#003087", secondaryColor: "#C8A84B" },
+          "wi - superior spartans": { name: "WI - Superior", nickname: "Spartans", logo: "https://cdn1.sportngin.com/attachments/team/50ec-182913706/SuperiorLogo_large_square.png", primaryColor: "#003087", secondaryColor: "#5B9BD5" },
+          "wi - tomah/sparta timberwolves": { name: "WI - Tomah/Sparta", nickname: "Timberwolves", logo: "https://se-team-service-production.s3.amazonaws.com/uploads/team/logo/11ef69eb-7a5a-542c-9db3-0ad7f76a95dd/large_square_2024_2025_TSHS_New_Logo.jpg", primaryColor: "#000000", secondaryColor: "#CC0000" },
+          "wi - tomahawk hatchets": { name: "WI - Tomahawk", nickname: "Hatchets", logo: "https://cdn3.sportngin.com/attachments/team/0538/7211/tomohawk_large_square.jpg", primaryColor: "#003087", secondaryColor: "#C8A84B" },
+          "wi - university school of milwaukee wildcats": { name: "WI - University School of Milwaukee", nickname: "Wildcats", logo: "https://se-team-service-production.s3.amazonaws.com/uploads/team/logo/11ef69eb-7e56-4aea-b9b1-e2927c1f6037/large_square_Screenshot_2024-06-05_161438.jpg", primaryColor: "#003087", secondaryColor: "#C8A84B" },
+          "wi - verona wildcats": { name: "WI - Verona", nickname: "Wildcats", logo: "https://cdn4.sportngin.com/attachments/team/67aa-137608638/C97317F3-AF2D-4223-A38A-0FFDD43EBD4A_large_square.png", primaryColor: "#000000", secondaryColor: "#FF6600" },
+          "wi - viroqua blackhawks": { name: "WI - Viroqua", nickname: "Blackhawks", logo: "https://cdn3.sportngin.com/attachments/team/5c7f-183079856/ViroquaLogo_large_square.png", primaryColor: "#000000", secondaryColor: "#FF6600" },
+          "wi - wausau west warriors": { name: "WI - Wausau West", nickname: "Warriors", logo: "https://se-team-service-production.s3.amazonaws.com/uploads/team/logo/11f07920-d1c4-fcc2-a95f-c624218316c9/large_square_Warrior_Hockey_Logo_-_Gold.png", primaryColor: "#003087", secondaryColor: "#C8A84B" },
+          "wi - west salem panthers": { name: "WI - West Salem", nickname: "Panthers", logo: "https://cdn1.sportngin.com/attachments/team/523a-183870523/WestSalem4_large_square.png", primaryColor: "#000000", secondaryColor: "#FF6600" },
+          "wi - wisconsin rapids red raiders": { name: "WI - Wisconsin Rapids", nickname: "Red Raiders", logo: "https://cdn2.sportngin.com/attachments/team/7410/1250/WR_hockey_2016__resize_6_large_square.jpg", primaryColor: "#000000", secondaryColor: "#CC0000" },
+          "ont - fort frances muskie": { name: "ONT - Fort Frances", nickname: "Muskie", logo: "https://cdn1.sportngin.com/attachments/team/86ed-183242558/MuskiesLogo_large_square.png", primaryColor: "#003087", secondaryColor: "#C8A84B" }
         };
         // Team lookup function with fuzzy matching
         const lookupTeam = (searchName) => {
@@ -716,6 +777,7 @@
           const [importStep, setImportStep] = useState('myTeamHome');
           const [importText, setImportText] = useState('');
           const [safariDetected, setSafariDetected] = useState(false);
+          const [pasteAlert, setPasteAlert] = useState({ visible: false, message: '' });
           const [spreadsheetData, setSpreadsheetData] = useState([]);
           const [spreadsheetHeaders, setSpreadsheetHeaders] = useState([]);
           const [selectedPlayer, setSelectedPlayer] = useState(null);
@@ -1121,7 +1183,12 @@
             // Completed seasons = last 3 finished seasons (used in career import labels)
             const completedStartYear = currentMonth >= 4 ? currentYear - 1 : currentYear - 2;
 
+            // Next game data import validation rolls Nov 1 (month >= 10)
+            // so coaches can use the app pre-season before new Legacy Hockey pages go live
+            const nextGameSeasonStartYear = currentMonth >= 10 ? currentYear : currentYear - 1;
+
             const short = (y) => `'${String(y).slice(2)}-'${String(y+1).slice(2)}`;
+            const fmtFull = (y) => `${y}-${String(y+1).slice(-2)}`;
             return {
               season1: short(seasonStartYear),
               season2: short(seasonStartYear - 1),
@@ -1131,8 +1198,56 @@
               season3Full: `${seasonStartYear - 2}-${seasonStartYear - 1}`,
               completedSeason1: short(completedStartYear),
               completedSeason2: short(completedStartYear - 1),
-              completedSeason3: short(completedStartYear - 2)
+              completedSeason3: short(completedStartYear - 2),
+              currentSeasonFull: fmtFull(seasonStartYear),
+              nextGameSeasonFull: fmtFull(nextGameSeasonStartYear),
+              career1Full: fmtFull(completedStartYear),
+              career2Full: fmtFull(completedStartYear - 1),
+              career3Full: fmtFull(completedStartYear - 2)
             };
+          };
+
+          // ── Paste Validation ─────────────────────────────────────────────────
+          const validatePaste = (text, type, expectedYearFull) => {
+            const countOccurrences = (str) => text.split(str).length - 1;
+            const has = (str) => text.includes(str);
+
+            let pageTypeOk = false;
+            let pageName = '';
+
+            if (type === 'home') {
+              pageTypeOk = has('Team Statistics');
+              pageName = 'Legacy Home';
+            } else if (type === 'roster') {
+              pageTypeOk = has('Players') && has('Staff');
+              pageName = 'Roster';
+            } else if (type === 'playerStats') {
+              pageTypeOk = countOccurrences('Player Stats') >= 2;
+              pageName = 'Player Stats';
+            } else if (type === 'teamStats') {
+              pageTypeOk = countOccurrences('Team Stats') >= 2;
+              pageName = 'Team Stats';
+            }
+
+            if (!pageTypeOk) {
+              return {
+                valid: false,
+                message: `That doesn't look like ${pageName} data. Please return to Legacy Hockey, select ${pageName} (${expectedYearFull}) from the navigation menu, then copy and paste the full page.`
+              };
+            }
+
+            if (!has(expectedYearFull)) {
+              const yearMatch = text.match(/20\d\d-\d\d/);
+              const detectedYear = yearMatch ? yearMatch[0] : null;
+              return {
+                valid: false,
+                message: detectedYear
+                  ? `That looks like ${detectedYear} ${pageName} — this field needs ${expectedYearFull} data. Please return to Legacy Hockey, select ${pageName}, and make sure ${expectedYearFull} is selected at the top before copying.`
+                  : `This field needs ${expectedYearFull} ${pageName} data. Please return to Legacy Hockey, select ${pageName}, and make sure ${expectedYearFull} is selected at the top before copying.`
+              };
+            }
+
+            return { valid: true };
           };
 
           // Export Team Configuration for subscriber builds
@@ -3480,15 +3595,32 @@
                           <div>
                             <div className="flex items-center justify-between mb-1">
                               <label className="text-sm font-semibold">{getSeasonYears().completedSeason1} Season Legacy Final Player Stats</label>
-                              <button 
-                                onClick={() => openHelp('careerStats', getSeasonYears().completedSeason1)}
-                                className="text-blue-600 hover:text-blue-800 text-xs font-semibold"
-                              >
-                                ❓ Help
-                              </button>
+                              <div className="flex items-center gap-3">
+                                {careerStatsImport.lastSeason && (
+                                  <button
+                                    onClick={() => setCareerStatsImport({...careerStatsImport, lastSeason: ''})}
+                                    className="text-red-500 hover:text-red-700 text-xs font-semibold"
+                                  >
+                                    ✕ Clear
+                                  </button>
+                                )}
+                                <button 
+                                  onClick={() => openHelp('careerStats', getSeasonYears().completedSeason1)}
+                                  className="text-blue-600 hover:text-blue-800 text-xs font-semibold"
+                                >
+                                  ❓ Help
+                                </button>
+                              </div>
                             </div>
                             <textarea
                               value={careerStatsImport.lastSeason}
+                              onPaste={(e) => {
+                                const text = e.clipboardData.getData('text');
+                                if (!text) return;
+                                const sy = getSeasonYears();
+                                const result = validatePaste(text, 'playerStats', sy.career1Full);
+                                if (!result.valid) setPasteAlert({ visible: true, message: result.message });
+                              }}
                               onChange={(e) => setCareerStatsImport({...careerStatsImport, lastSeason: e.target.value})}
                               placeholder={`Paste player stats from ${getSeasonYears().completedSeason1} season...`}
                               className="w-full border rounded px-3 py-2 font-mono text-xs"
@@ -3499,15 +3631,32 @@
                           <div>
                             <div className="flex items-center justify-between mb-1">
                               <label className="text-sm font-semibold">{getSeasonYears().completedSeason2} Season Legacy Final Player Stats</label>
-                              <button 
-                                onClick={() => openHelp('careerStats', getSeasonYears().completedSeason2)}
-                                className="text-blue-600 hover:text-blue-800 text-xs font-semibold"
-                              >
-                                ❓ Help
-                              </button>
+                              <div className="flex items-center gap-3">
+                                {careerStatsImport.twoSeasonsAgo && (
+                                  <button
+                                    onClick={() => setCareerStatsImport({...careerStatsImport, twoSeasonsAgo: ''})}
+                                    className="text-red-500 hover:text-red-700 text-xs font-semibold"
+                                  >
+                                    ✕ Clear
+                                  </button>
+                                )}
+                                <button 
+                                  onClick={() => openHelp('careerStats', getSeasonYears().completedSeason2)}
+                                  className="text-blue-600 hover:text-blue-800 text-xs font-semibold"
+                                >
+                                  ❓ Help
+                                </button>
+                              </div>
                             </div>
                             <textarea
                               value={careerStatsImport.twoSeasonsAgo}
+                              onPaste={(e) => {
+                                const text = e.clipboardData.getData('text');
+                                if (!text) return;
+                                const sy = getSeasonYears();
+                                const result = validatePaste(text, 'playerStats', sy.career2Full);
+                                if (!result.valid) setPasteAlert({ visible: true, message: result.message });
+                              }}
                               onChange={(e) => setCareerStatsImport({...careerStatsImport, twoSeasonsAgo: e.target.value})}
                               placeholder={`Paste player stats from ${getSeasonYears().completedSeason2} season...`}
                               className="w-full border rounded px-3 py-2 font-mono text-xs"
@@ -3518,15 +3667,32 @@
                           <div>
                             <div className="flex items-center justify-between mb-1">
                               <label className="text-sm font-semibold">{getSeasonYears().completedSeason3} Season Legacy Final Player Stats</label>
-                              <button 
-                                onClick={() => openHelp('careerStats', getSeasonYears().season3)}
-                                className="text-blue-600 hover:text-blue-800 text-xs font-semibold"
-                              >
-                                ❓ Help
-                              </button>
+                              <div className="flex items-center gap-3">
+                                {careerStatsImport.threeSeasonsAgo && (
+                                  <button
+                                    onClick={() => setCareerStatsImport({...careerStatsImport, threeSeasonsAgo: ''})}
+                                    className="text-red-500 hover:text-red-700 text-xs font-semibold"
+                                  >
+                                    ✕ Clear
+                                  </button>
+                                )}
+                                <button 
+                                  onClick={() => openHelp('careerStats', getSeasonYears().season3)}
+                                  className="text-blue-600 hover:text-blue-800 text-xs font-semibold"
+                                >
+                                  ❓ Help
+                                </button>
+                              </div>
                             </div>
                             <textarea
                               value={careerStatsImport.threeSeasonsAgo}
+                              onPaste={(e) => {
+                                const text = e.clipboardData.getData('text');
+                                if (!text) return;
+                                const sy = getSeasonYears();
+                                const result = validatePaste(text, 'playerStats', sy.career3Full);
+                                if (!result.valid) setPasteAlert({ visible: true, message: result.message });
+                              }}
                               onChange={(e) => setCareerStatsImport({...careerStatsImport, threeSeasonsAgo: e.target.value})}
                               placeholder={`Paste player stats from ${getSeasonYears().completedSeason3} season...`}
                               className="w-full border rounded px-3 py-2 font-mono text-xs"
@@ -3736,7 +3902,7 @@
                           Copy this JSON configuration and paste it into the Legacy Line Charts Claude project to build a customized subscriber version.
                         </p>
                         <p className="text-sm text-gray-600 mb-2">
-                          <strong>🔒 Baked into subscriber site:</strong> Team name, logo, colors, arena, career stats, <span className="text-purple-700 font-semibold">+ MSHSL Teams Database (142 teams)</span>.
+                          <strong>🔒 Baked into subscriber site:</strong> Team name, logo, colors, arena, career stats, <span className="text-purple-700 font-semibold">+ MSHSL &amp; ND/SD/WI/ONT Teams Database ({Object.keys(MSHSL_TEAMS).length} teams)</span>.
                         </p>
                         <p className="text-sm text-gray-600">
                           <strong>✏️ Editable by subscriber coach:</strong> Pronunciations &amp; Post-HS info (saved to their local storage).
@@ -3821,7 +3987,7 @@
                           
                           {/* Team Selector Dropdown */}
                           <div className="mb-4">
-                            <label className="text-sm text-gray-600 block mb-1">Search MSHSL Teams (142 teams)</label>
+                            <label className="text-sm text-gray-600 block mb-1">Search MSHSL and ND, SD, WI &amp; ONT HS Teams ({Object.keys(MSHSL_TEAMS).length} teams)</label>
                             <select
                               className="w-full border rounded px-3 py-2 text-sm"
                               onChange={(e) => {
@@ -3864,15 +4030,43 @@
                             <label className="text-sm font-semibold">
                               Paste content from {currentStepInfo?.label}
                             </label>
-                            <button 
-                              onClick={() => openHelp(importStep)}
-                              className="text-blue-600 hover:text-blue-800 text-xs font-semibold"
-                            >
-                              ❓ Help
-                            </button>
+                            <div className="flex items-center gap-3">
+                              {importText && (
+                                <button
+                                  onClick={() => setImportText('')}
+                                  className="text-red-500 hover:text-red-700 text-xs font-semibold"
+                                >
+                                  ✕ Clear
+                                </button>
+                              )}
+                              <button 
+                                onClick={() => openHelp(importStep)}
+                                className="text-blue-600 hover:text-blue-800 text-xs font-semibold"
+                              >
+                                ❓ Help
+                              </button>
+                            </div>
                           </div>
                           <textarea
                             value={importText}
+                            onPaste={(e) => {
+                              const text = e.clipboardData.getData('text');
+                              if (!text) return;
+                              const stepTypeMap = {
+                                myTeamHome: 'home',
+                                myTeamRoster: 'roster',
+                                myTeamPlayerStats: 'playerStats',
+                                oppHome: 'home',
+                                oppRoster: 'roster',
+                                oppPlayerStats: 'playerStats',
+                                oppTeamStats: 'teamStats',
+                              };
+                              const type = stepTypeMap[importStep];
+                              if (!type) return;
+                              const sy = getSeasonYears();
+                              const result = validatePaste(text, type, sy.nextGameSeasonFull);
+                              if (!result.valid) setPasteAlert({ visible: true, message: result.message });
+                            }}
                             onChange={(e) => {
                               const text = e.target.value;
                               // Safari detection: unique markers in Safari paste output
@@ -4210,6 +4404,25 @@
                         Close
                       </button>
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Paste Validation Alert */}
+              {pasteAlert.visible && (
+                <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[9999]">
+                  <div className="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full mx-4">
+                    <div className="flex items-center gap-3 mb-4">
+                      <span style={{ fontSize: '2rem' }}>⚠️</span>
+                      <h2 className="text-xl font-bold text-gray-800">Heads Up, Coach!</h2>
+                    </div>
+                    <p className="text-gray-700 text-sm leading-relaxed mb-6">{pasteAlert.message}</p>
+                    <button
+                      onClick={() => setPasteAlert({ visible: false, message: '' })}
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-sm transition-colors"
+                    >
+                      Got It!
+                    </button>
                   </div>
                 </div>
               )}
