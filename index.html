@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legacy Line Charts v60.5</title>
+    <title>Legacy Line Charts v60.8</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -23,6 +23,14 @@
     <style>
         * {
             font-family: 'Arial Narrow', Arial, sans-serif;
+        }
+        
+        /* v60.8: Notes visibility toggle — hide typed text in Add Notes boxes (screen + print) */
+        .notes-text-hidden input {
+            color: transparent !important;
+        }
+        .notes-text-hidden input::placeholder {
+            color: transparent !important;
         }
         
         /* Critical: Ensure colors print properly */
@@ -45,6 +53,11 @@
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
+            }
+            
+            /* v60.8: Hide empty-slot "Click to drop" placeholders on PDF prints (all sites) */
+            .pdf-hide-empty-slot {
+                display: none !important;
             }
         }
     </style>
@@ -690,7 +703,8 @@
                   pkTitle: parsed.pkTitle || 'Add Notes',
                   ppTitle: parsed.ppTitle || 'Add Notes',
                   scoutNotes: parsed.scoutNotes || { powerPlay: '', penaltyKill: '', keyPlayers: '' },
-                  showScoutNotes: parsed.showScoutNotes !== undefined ? parsed.showScoutNotes : true
+                  showScoutNotes: parsed.showScoutNotes !== undefined ? parsed.showScoutNotes : true,
+                  notesVisible: parsed.notesVisible !== undefined ? parsed.notesVisible : true
                 };
               }
             } catch (e) {
@@ -702,7 +716,8 @@
               pkTitle: 'Add Notes',
               ppTitle: 'Add Notes',
               scoutNotes: { powerPlay: '', penaltyKill: '', keyPlayers: '' },
-              showScoutNotes: true
+              showScoutNotes: true,
+              notesVisible: true
             };
           });
           
@@ -3480,7 +3495,7 @@
                   {player ? (
                     <PlayerCard player={player} source={{ line, position }} compact={true} />
                   ) : (
-                    <div className="border-2 border-dashed border-gray-300 rounded h-full flex items-center justify-center">
+                    <div className="border-2 border-dashed border-gray-300 rounded h-full flex items-center justify-center pdf-hide-empty-slot">
                       <div className="text-gray-400 text-xs">Click to drop</div>
                     </div>
                   )}
@@ -4478,6 +4493,26 @@
                         </div>
                       </button>
                     )}
+                    {!SUBSCRIBER_MODE && (
+                      <a href="https://legacylinecharts.github.io/Deployment-Tool-Live/" target="_blank" rel="noopener noreferrer" className="bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-500 flex items-center gap-1 font-semibold no-underline" style={{ lineHeight: '1.1', textDecoration: 'none' }}>
+                        <span style={{ fontSize: '14px' }}>🚀</span>
+                        <span style={{ fontSize: '12px', fontWeight: 'bold' }}>Deploy</span>
+                      </a>
+                    )}
+                    <button
+                      onClick={() => setCoachNotes({...coachNotes, notesVisible: !coachNotes.notesVisible})}
+                      className={`${coachNotes.notesVisible ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-500 hover:bg-gray-600'} text-white px-3 py-1 rounded flex items-center gap-1 font-semibold`}
+                      style={{ lineHeight: '1.1' }}
+                      title={coachNotes.notesVisible
+                        ? 'Add Notes are currently VISIBLE (private view — coach & assistants). Click to hide for public PDF.'
+                        : 'Add Notes are currently HIDDEN (public view — safe to share). Click to reveal.'}
+                    >
+                      <span style={{ fontSize: '14px' }}>{coachNotes.notesVisible ? '👁' : '🚫'}</span>
+                      <div className="flex flex-col items-start" style={{ fontSize: '10px' }}>
+                        <span>Notes</span>
+                        <span>{coachNotes.notesVisible ? 'ON' : 'OFF'}</span>
+                      </div>
+                    </button>
                     <button onClick={() => {
                       const originalTitle = document.title;
                       try {
@@ -4943,7 +4978,7 @@
                         </div>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-2" style={{ height: '85px' }}>
+                    <div className={`grid grid-cols-2 gap-2 ${!coachNotes.notesVisible ? 'notes-text-hidden' : ''}`} style={{ height: '85px' }}>
                       <div className="border-2 rounded flex flex-col" style={{ 
                         borderColor: myTeamSetup.colors.primary, 
                         background: `${myTeamSetup.colors.primary}10`,
