@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legacy Line Charts v60.8</title>
+    <title>Legacy Line Charts v60.9</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -655,6 +655,11 @@
               if (saved) {
                 console.log('📋 Loading saved line assignments from localStorage');
                 const parsed = JSON.parse(saved);
+                // v60.9: ensure goalies.third / thirdColor exist on saved data (backward compat)
+                if (parsed.goalies) {
+                  if (parsed.goalies.third === undefined) parsed.goalies.third = null;
+                  if (parsed.goalies.thirdColor === undefined) parsed.goalies.thirdColor = 'WHITE';
+                }
                 // In subscriber mode: normalize any legacy colors (GREEN/RED/BLUE/YELLOW)
                 // to WHITE. Coach-chosen colors (anything else) are preserved.
                 if (SUBSCRIBER_MODE) {
@@ -670,6 +675,7 @@
                   if (parsed.goalies) {
                     parsed.goalies.starterColor = normalize(parsed.goalies.starterColor);
                     parsed.goalies.backupColor  = normalize(parsed.goalies.backupColor);
+                    parsed.goalies.thirdColor   = normalize(parsed.goalies.thirdColor);
                   }
                 }
                 return parsed;
@@ -685,7 +691,7 @@
               d1: { ld: null, rd: null, color: 'WHITE' },
               d2: { ld: null, rd: null, color: 'WHITE' },
               d3: { ld: null, rd: null, color: 'WHITE' },
-              goalies: { starter: null, starterColor: 'WHITE', backup: null, backupColor: 'WHITE' }
+              goalies: { starter: null, starterColor: 'WHITE', backup: null, backupColor: 'WHITE', third: null, thirdColor: 'WHITE' }
             };
           };
 
@@ -741,6 +747,14 @@
           const [showSetup, setShowSetup] = useState(false);
           const [showCareerStats, setShowCareerStats] = useState(false);
           const [showPronunciations, setShowPronunciations] = useState(false);
+
+          // v60.9: 3-goalie mode toggle (persisted to localStorage)
+          const [useThreeGoalies, setUseThreeGoalies] = useState(() => {
+            try {
+              const saved = localStorage.getItem('hockey-scout-three-goalies');
+              return saved === 'true';
+            } catch { return false; }
+          });
 
           // Stat display toggles - persisted to localStorage
           const [showPlusMinus, setShowPlusMinus] = useState(() => {
@@ -1075,6 +1089,10 @@
           useEffect(() => {
             try { localStorage.setItem('llc-show-pim', JSON.stringify(showPIM)); } catch {}
           }, [showPIM]);
+          // v60.9: persist 3-goalie mode preference
+          useEffect(() => {
+            try { localStorage.setItem('hockey-scout-three-goalies', useThreeGoalies ? 'true' : 'false'); } catch {}
+          }, [useThreeGoalies]);
           useEffect(() => {
             try { localStorage.setItem('hockey-scout-coachNotes', JSON.stringify(coachNotes)); } catch {}
           }, [coachNotes]);
@@ -2388,7 +2406,7 @@
                 ['d1','d2','d3'].forEach(d => {
                   if (nl[d]) { nl[d].ld=upd(nl[d].ld); nl[d].rd=upd(nl[d].rd); }
                 });
-                if (nl.goalies) { nl.goalies.starter=upd(nl.goalies.starter); nl.goalies.backup=upd(nl.goalies.backup); }
+                if (nl.goalies) { nl.goalies.starter=upd(nl.goalies.starter); nl.goalies.backup=upd(nl.goalies.backup); nl.goalies.third=upd(nl.goalies.third); }
                 return nl;
               });
 
@@ -2874,6 +2892,8 @@
               setLines({ ...lines, goalies: { ...lines.goalies, starterColor: color } });
             } else if (position === 'backup') {
               setLines({ ...lines, goalies: { ...lines.goalies, backupColor: color } });
+            } else if (position === 'third') {
+              setLines({ ...lines, goalies: { ...lines.goalies, thirdColor: color } });
             }
           };
 
@@ -4513,6 +4533,34 @@
                         <span>{coachNotes.notesVisible ? 'ON' : 'OFF'}</span>
                       </div>
                     </button>
+                    <button
+                      onClick={() => {
+                        const turningOn = !useThreeGoalies;
+                        if (turningOn) {
+                          // Auto-eject Line 4 RW player (notes will take that slot's space)
+                          if (lines.line4 && lines.line4.rw) {
+                            setLines({ ...lines, line4: { ...lines.line4, rw: null } });
+                          }
+                        } else {
+                          // Auto-eject 3rd goalie back to Available
+                          if (lines.goalies && lines.goalies.third) {
+                            setLines({ ...lines, goalies: { ...lines.goalies, third: null } });
+                          }
+                        }
+                        setUseThreeGoalies(turningOn);
+                      }}
+                      className={`${useThreeGoalies ? 'bg-amber-600 hover:bg-amber-700' : 'bg-gray-500 hover:bg-gray-600'} text-white px-3 py-1 rounded flex items-center gap-1 font-semibold`}
+                      style={{ lineHeight: '1.1' }}
+                      title={useThreeGoalies
+                        ? '3-goalie mode is ON. Notes are in Line 4 area. Click to revert to 2 goalies.'
+                        : '2-goalie mode (default). Click to add a 3rd goalie slot — Line 4 RW will move to Available, notes will relocate to Line 4 area.'}
+                    >
+                      <span style={{ fontSize: '14px' }}>🥅</span>
+                      <div className="flex flex-col items-start" style={{ fontSize: '10px' }}>
+                        <span>{useThreeGoalies ? '3 Goalies' : '+3rd'}</span>
+                        <span>{useThreeGoalies ? 'ON' : 'Goalie'}</span>
+                      </div>
+                    </button>
                     <button onClick={() => {
                       const originalTitle = document.title;
                       try {
@@ -4898,7 +4946,7 @@
                     </div>
                   </div>
                   
-                  {['line1', 'line2', 'line3', 'line4'].map((line, idx) => (
+                  {['line1', 'line2', 'line3'].map((line, idx) => (
                     <div key={line} className={`mb-1 rounded p-0 border-2 ${colorClasses[lines[line].color]}`}>
                       <div className="flex items-center gap-0 mb-0">
                         <ColorPicker value={lines[line].color} onChange={(c) => handleLineColorChange(line, c)} />
@@ -4910,6 +4958,96 @@
                       </div>
                     </div>
                   ))}
+                  {/* Line 4 — conditional: 2-goalie mode = standard 3 forward slots; 3-goalie mode = LW + C + notes (RW slot taken by notes) */}
+                  {!useThreeGoalies ? (
+                    <div key="line4" className={`mb-1 rounded p-0 border-2 ${colorClasses[lines.line4.color]}`}>
+                      <div className="flex items-center gap-0 mb-0">
+                        <ColorPicker value={lines.line4.color} onChange={(c) => handleLineColorChange('line4', c)} />
+                        <div className="flex-1 grid grid-cols-3 gap-1">
+                          <LineSlot line="line4" position="lw" label="LW" showLabel={false} />
+                          <LineSlot line="line4" position="c" label="C" showLabel={false} />
+                          <LineSlot line="line4" position="rw" label="RW" showLabel={false} />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div key="line4" className="grid grid-cols-3 gap-1 mb-1">
+                      <div className={`col-span-2 rounded p-0 border-2 ${colorClasses[lines.line4.color]}`}>
+                        <div className="flex items-center gap-0">
+                          <ColorPicker value={lines.line4.color} onChange={(c) => handleLineColorChange('line4', c)} />
+                          <div className="flex-1 grid grid-cols-2 gap-1">
+                            <LineSlot line="line4" position="lw" label="LW" showLabel={false} />
+                            <LineSlot line="line4" position="c" label="C" showLabel={false} />
+                          </div>
+                        </div>
+                      </div>
+                      {/* Notes container relocated here when 3-goalie mode is on. Identical 1/3 width × 85px geometry as D3 right column. */}
+                      <div className={`grid grid-cols-2 gap-2 ${!coachNotes.notesVisible ? 'notes-text-hidden' : ''}`} style={{ height: '85px' }}>
+                        <div className="border-2 rounded flex flex-col" style={{ 
+                          borderColor: myTeamSetup.colors.primary, 
+                          background: `${myTeamSetup.colors.primary}10`,
+                          padding: '2px'
+                        }}>
+                          <input
+                            type="text"
+                            value={coachNotes.pkTitle || ''}
+                            placeholder="Add Notes"
+                            onChange={(e) => setCoachNotes({...coachNotes, pkTitle: e.target.value})}
+                            className="w-full border-0 bg-transparent text-center font-bold placeholder-print-hide"
+                            style={{ fontSize: '10px', padding: '0px', outline: 'none', marginBottom: '0px' }}
+                          />
+                          <div className="flex-1 flex flex-col justify-around" style={{ fontSize: '9px', lineHeight: '1.0' }}>
+                            {[0,1,2,3,4].map(i => (
+                              <input 
+                                key={i}
+                                type="text" 
+                                placeholder="" 
+                                className="w-full border-0 bg-transparent text-center"
+                                style={{ fontSize: '9px', padding: '0px', outline: 'none', fontWeight: 'normal' }}
+                                value={coachNotes.pk?.split('\n')[i] || ''}
+                                onChange={(e) => {
+                                  const pkLines = coachNotes.pk?.split('\n') || ['','','','',''];
+                                  pkLines[i] = e.target.value;
+                                  setCoachNotes({...coachNotes, pk: pkLines.join('\n')});
+                                }}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                        <div className="border-2 rounded flex flex-col" style={{ 
+                          borderColor: myTeamSetup.colors.primary, 
+                          background: `${myTeamSetup.colors.primary}10`,
+                          padding: '2px'
+                        }}>
+                          <input
+                            type="text"
+                            value={coachNotes.ppTitle || ''}
+                            placeholder="Add Notes"
+                            onChange={(e) => setCoachNotes({...coachNotes, ppTitle: e.target.value})}
+                            className="w-full border-0 bg-transparent text-center font-bold placeholder-print-hide"
+                            style={{ fontSize: '10px', padding: '0px', outline: 'none', marginBottom: '0px' }}
+                          />
+                          <div className="flex-1 flex flex-col justify-around" style={{ fontSize: '9px', lineHeight: '1.0' }}>
+                            {[0,1,2,3,4].map(i => (
+                              <input 
+                                key={i}
+                                type="text" 
+                                placeholder="" 
+                                className="w-full border-0 bg-transparent text-center"
+                                style={{ fontSize: '9px', padding: '0px', outline: 'none', fontWeight: 'normal' }}
+                                value={coachNotes.pp?.split('\n')[i] || ''}
+                                onChange={(e) => {
+                                  const ppLines = coachNotes.pp?.split('\n') || ['','','','',''];
+                                  ppLines[i] = e.target.value;
+                                  setCoachNotes({...coachNotes, pp: ppLines.join('\n')});
+                                }}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Defense Pairs + Goalies + PK/PP */}
@@ -4978,71 +5116,83 @@
                         </div>
                       </div>
                     </div>
-                    <div className={`grid grid-cols-2 gap-2 ${!coachNotes.notesVisible ? 'notes-text-hidden' : ''}`} style={{ height: '85px' }}>
-                      <div className="border-2 rounded flex flex-col" style={{ 
-                        borderColor: myTeamSetup.colors.primary, 
-                        background: `${myTeamSetup.colors.primary}10`,
-                        padding: '2px'
-                      }}>
-                        <input
-                          type="text"
-                          value={coachNotes.pkTitle || ''}
-                          placeholder="Add Notes"
-                          onChange={(e) => setCoachNotes({...coachNotes, pkTitle: e.target.value})}
-                          className="w-full border-0 bg-transparent text-center font-bold placeholder-print-hide"
-                          style={{ fontSize: '10px', padding: '0px', outline: 'none', marginBottom: '0px' }}
-                        />
-                        <div className="flex-1 flex flex-col justify-around" style={{ fontSize: '9px', lineHeight: '1.0' }}>
-                          {[0,1,2,3,4].map(i => (
-                            <input 
-                              key={i}
-                              type="text" 
-                              placeholder="" 
-                              className="w-full border-0 bg-transparent text-center"
-                              style={{ fontSize: '9px', padding: '0px', outline: 'none', fontWeight: 'normal' }}
-                              value={coachNotes.pk?.split('\n')[i] || ''}
-                              onChange={(e) => {
-                                const pkLines = coachNotes.pk?.split('\n') || ['','','','',''];
-                                pkLines[i] = e.target.value;
-                                setCoachNotes({...coachNotes, pk: pkLines.join('\n')});
-                              }}
-                            />
-                          ))}
+                    {!useThreeGoalies ? (
+                      <div className={`grid grid-cols-2 gap-2 ${!coachNotes.notesVisible ? 'notes-text-hidden' : ''}`} style={{ height: '85px' }}>
+                        <div className="border-2 rounded flex flex-col" style={{ 
+                          borderColor: myTeamSetup.colors.primary, 
+                          background: `${myTeamSetup.colors.primary}10`,
+                          padding: '2px'
+                        }}>
+                          <input
+                            type="text"
+                            value={coachNotes.pkTitle || ''}
+                            placeholder="Add Notes"
+                            onChange={(e) => setCoachNotes({...coachNotes, pkTitle: e.target.value})}
+                            className="w-full border-0 bg-transparent text-center font-bold placeholder-print-hide"
+                            style={{ fontSize: '10px', padding: '0px', outline: 'none', marginBottom: '0px' }}
+                          />
+                          <div className="flex-1 flex flex-col justify-around" style={{ fontSize: '9px', lineHeight: '1.0' }}>
+                            {[0,1,2,3,4].map(i => (
+                              <input 
+                                key={i}
+                                type="text" 
+                                placeholder="" 
+                                className="w-full border-0 bg-transparent text-center"
+                                style={{ fontSize: '9px', padding: '0px', outline: 'none', fontWeight: 'normal' }}
+                                value={coachNotes.pk?.split('\n')[i] || ''}
+                                onChange={(e) => {
+                                  const pkLines = coachNotes.pk?.split('\n') || ['','','','',''];
+                                  pkLines[i] = e.target.value;
+                                  setCoachNotes({...coachNotes, pk: pkLines.join('\n')});
+                                }}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div className="border-2 rounded flex flex-col" style={{ 
+                          borderColor: myTeamSetup.colors.primary, 
+                          background: `${myTeamSetup.colors.primary}10`,
+                          padding: '2px'
+                        }}>
+                          <input
+                            type="text"
+                            value={coachNotes.ppTitle || ''}
+                            placeholder="Add Notes"
+                            onChange={(e) => setCoachNotes({...coachNotes, ppTitle: e.target.value})}
+                            className="w-full border-0 bg-transparent text-center font-bold placeholder-print-hide"
+                            style={{ fontSize: '10px', padding: '0px', outline: 'none', marginBottom: '0px' }}
+                          />
+                          <div className="flex-1 flex flex-col justify-around" style={{ fontSize: '9px', lineHeight: '1.0' }}>
+                            {[0,1,2,3,4].map(i => (
+                              <input 
+                                key={i}
+                                type="text" 
+                                placeholder="" 
+                                className="w-full border-0 bg-transparent text-center"
+                                style={{ fontSize: '9px', padding: '0px', outline: 'none', fontWeight: 'normal' }}
+                                value={coachNotes.pp?.split('\n')[i] || ''}
+                                onChange={(e) => {
+                                  const ppLines = coachNotes.pp?.split('\n') || ['','','','',''];
+                                  ppLines[i] = e.target.value;
+                                  setCoachNotes({...coachNotes, pp: ppLines.join('\n')});
+                                }}
+                              />
+                            ))}
+                          </div>
                         </div>
                       </div>
-                      
-                      <div className="border-2 rounded flex flex-col" style={{ 
-                        borderColor: myTeamSetup.colors.primary, 
-                        background: `${myTeamSetup.colors.primary}10`,
-                        padding: '2px'
-                      }}>
-                        <input
-                          type="text"
-                          value={coachNotes.ppTitle || ''}
-                          placeholder="Add Notes"
-                          onChange={(e) => setCoachNotes({...coachNotes, ppTitle: e.target.value})}
-                          className="w-full border-0 bg-transparent text-center font-bold placeholder-print-hide"
-                          style={{ fontSize: '10px', padding: '0px', outline: 'none', marginBottom: '0px' }}
-                        />
-                        <div className="flex-1 flex flex-col justify-around" style={{ fontSize: '9px', lineHeight: '1.0' }}>
-                          {[0,1,2,3,4].map(i => (
-                            <input 
-                              key={i}
-                              type="text" 
-                              placeholder="" 
-                              className="w-full border-0 bg-transparent text-center"
-                              style={{ fontSize: '9px', padding: '0px', outline: 'none', fontWeight: 'normal' }}
-                              value={coachNotes.pp?.split('\n')[i] || ''}
-                              onChange={(e) => {
-                                const ppLines = coachNotes.pp?.split('\n') || ['','','','',''];
-                                ppLines[i] = e.target.value;
-                                setCoachNotes({...coachNotes, pp: ppLines.join('\n')});
-                              }}
-                            />
-                          ))}
+                    ) : (
+                      /* v60.9: 3rd goalie slot — replaces notes container in 3-goalie mode. Mirrors starter/backup goalie card structure. */
+                      <div className={`goalie-card-extended rounded p-0 border-2 ${colorClasses[lines.goalies.thirdColor]}`} style={{ width: 'calc(100% + 28px)' }}>
+                        <div className="flex items-center gap-0">
+                          <div className="flex-1" style={{ minWidth: 0 }}>
+                            <LineSlot line="goalies" position="third" label="3rd" showLabel={false} />
+                          </div>
+                          <ColorPicker value={lines.goalies.thirdColor} onChange={(c) => handleGoalieColorChange('third', c)} />
                         </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </div>
 
